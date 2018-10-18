@@ -437,18 +437,18 @@
   </notepads>
   <order>
     <hop>
-      <from>Spotify</from>
-      <to>Filter rows</to>
+      <from>CSV file input</from>
+      <to>Set field value to a constant</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Filter rows</from>
+      <from>Set field value to a constant</from>
       <to>Text file output</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Spotify</name>
+    <name>CSV file input</name>
     <type>CsvInput</type>
     <description />
     <distribute>Y</distribute>
@@ -458,7 +458,7 @@
       <method>none</method>
       <schema_name />
     </partitioning>
-    <filename>C:\Users\João Pina\Documents\GitHub\VI-MEIC-1819\Spotify Dataset\spotify.csv</filename>
+    <filename>C:\Users\João Pina\Documents\GitHub\VI-MEIC-1819\Weather Dataset\Argentina-Buenos-Aires.csv</filename>
     <filename_field />
     <rownum_field />
     <include_filename>N</include_filename>
@@ -473,79 +473,13 @@
     <encoding />
     <fields>
       <field>
-        <name>Position</name>
-        <type>Integer</type>
-        <format>#</format>
-        <currency>$</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>Track Name</name>
+        <name>STN---,WBAN , YEARMODA,   TEMP,  ,   DEWP,  ,  SLP  ,  ,  STP  ,  , VISIB,  ,  WDSP,  , MXSPD,  GUST,   MAX  ,  MIN  ,PRCP  ,SNDP , FRSHTT,</name>
         <type>String</type>
         <format />
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>76</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>Artist</name>
-        <type>String</type>
-        <format />
-        <currency>$</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>17</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>Streams</name>
-        <type>Integer</type>
-        <format>#</format>
-        <currency>$</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>15</length>
-        <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>URL</name>
-        <type>String</type>
-        <format />
-        <currency>$</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>53</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>Date</name>
-        <type>Date</type>
-        <format>yyyy-MM-dd</format>
-        <currency>$</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>Region</name>
-        <type>String</type>
-        <format />
-        <currency>$</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <length>2</length>
+        <length>139</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -558,14 +492,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>400</xloc>
-      <yloc>384</yloc>
+      <xloc>272</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Filter rows</name>
-    <type>FilterRows</type>
+    <name>Set field value to a constant</name>
+    <type>SetValueConstant</type>
     <description />
     <distribute>Y</distribute>
     <custom_distribution />
@@ -574,25 +508,15 @@
       <method>none</method>
       <schema_name />
     </partitioning>
-    <send_true_to>Text file output</send_true_to>
-    <send_false_to />
-    <compare>
-      <condition>
-        <negated>N</negated>
-        <leftvalue>Position</leftvalue>
-        <function>&lt;=</function>
-        <rightvalue />
-        <value>
-          <name>constant</name>
-          <type>Integer</type>
-          <text>50</text>
-          <length>-1</length>
-          <precision>0</precision>
-          <isnull>N</isnull>
-          <mask>####0;-####0</mask>
-        </value>
-      </condition>
-    </compare>
+    <usevar>N</usevar>
+    <fields>
+      <field>
+        <name>Country</name>
+        <value>ar</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
     <cluster_schema />
     <remotesteps>
       <input>
@@ -601,8 +525,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>576</xloc>
-      <yloc>384</yloc>
+      <xloc>416</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -631,7 +555,7 @@
     <fileNameField />
     <create_parent_folder>Y</create_parent_folder>
     <file>
-      <name>C:\Users\João Pina\Documents\GitHub\VI-MEIC-1819\Spotify Dataset\spotify_processed.csv</name>
+      <name>C:\Users\João Pina\Documents\GitHub\VI-MEIC-1819\Processed Weather Dataset\germany.csv</name>
       <is_command>N</is_command>
       <servlet_output>N</servlet_output>
       <do_not_open_new_file_init>N</do_not_open_new_file_init>
@@ -650,19 +574,7 @@
     </file>
     <fields>
       <field>
-        <name>Position</name>
-        <type>Integer</type>
-        <format>#</format>
-        <currency>$</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <nullif />
-        <trim_type>none</trim_type>
-        <length>15</length>
-        <precision>0</precision>
-      </field>
-      <field>
-        <name>Track Name</name>
+        <name>STN---,WBAN , YEARMODA,   TEMP,  ,   DEWP,  ,  SLP  ,  ,  STP  ,  , VISIB,  ,  WDSP,  , MXSPD,  GUST,   MAX  ,  MIN  ,PRCP  ,SNDP , FRSHTT,</name>
         <type>String</type>
         <format />
         <currency />
@@ -670,67 +582,7 @@
         <group />
         <nullif />
         <trim_type>none</trim_type>
-        <length>76</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>Artist</name>
-        <type>String</type>
-        <format />
-        <currency />
-        <decimal />
-        <group />
-        <nullif />
-        <trim_type>none</trim_type>
-        <length>17</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>Streams</name>
-        <type>Integer</type>
-        <format>#</format>
-        <currency>$</currency>
-        <decimal>.</decimal>
-        <group>,</group>
-        <nullif />
-        <trim_type>none</trim_type>
-        <length>15</length>
-        <precision>0</precision>
-      </field>
-      <field>
-        <name>URL</name>
-        <type>String</type>
-        <format />
-        <currency />
-        <decimal />
-        <group />
-        <nullif />
-        <trim_type>none</trim_type>
-        <length>53</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>Date</name>
-        <type>Date</type>
-        <format>yyyy-MM-dd</format>
-        <currency />
-        <decimal />
-        <group />
-        <nullif />
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>Region</name>
-        <type>String</type>
-        <format />
-        <currency />
-        <decimal />
-        <group />
-        <nullif />
-        <trim_type>none</trim_type>
-        <length>2</length>
+        <length>139</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -742,8 +594,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>704</xloc>
-      <yloc>384</yloc>
+      <xloc>544</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
