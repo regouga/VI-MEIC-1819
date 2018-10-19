@@ -25,3 +25,4 @@ sk faltam 506
 
 no fim temos de ter exatamente 933704 entradas (contando com a primeira linha)
 
+
