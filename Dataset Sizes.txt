@@ -1,0 +1,19 @@
+weather.csv - 13.5MB 19,345 rows
+
+spotify.csv - 151MB 933,607 rows
+
+christmas_eve.csv - 6KB 39 rows
+
+despacito_indicators.csv - 1KB 21 rows
+
+full_dataset - 178MB 933,607 rows
+
+let_it_snow - 1KB 2 rows
+
+raining_ecuador - 3KB 100 rows
+
+songs_temp - 7.57MB 49798 rows
+
+streams_indicators - 1KB 2 rows
+
+sunny_top - 18KB 113 rows
