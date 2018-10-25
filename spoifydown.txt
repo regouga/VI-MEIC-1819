@@ -23,6 +23,8 @@ sk faltam 506
 
 33547
 
-no fim temos de ter exatamente 933704 entradas (contando com a primeira linha)
+Apagámos 96 entradas que correspondiam a uma música que foi eliminada 
+
+no fim temos de ter exatamente 933608 entradas (contando com a primeira linha)
 
 
