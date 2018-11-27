@@ -72,9 +72,9 @@
 					
 					<div id="sandbox-container">        
 						<div class="input-daterange input-group" id="datepicker">
-							<input type="text" class="input-sm form-control" value="01/01/2017" name="start" />
+							<input type="text" class="input-sm form-control" value="01/01/2017" name="start" id="start"/>
 							<span class="input-group-addon">to</span>
-							<input type="text" class="input-sm form-control" value="01/01/2017" name="end" />
+							<input type="text" class="input-sm form-control" value="01/01/2017" name="end" id="end"/>
 						</div>
 					</div>
 
@@ -86,6 +86,9 @@
 							defaultViewDate: { year: 2017, month: 01, day: 01 },
 							maxViewMode: 1
 						});
+						
+						var dates = $('#start').val();
+						console.log(dates.toString());
 					</script>
 					
 				</div>
@@ -100,7 +103,8 @@
 		<div class="col-md-6">
 			<div class="row-md-6 h-100">
 				<div class="col-md-6 h-50">
-					<img src="assets/Imagem1.png"> 
+					lista das músicas
+					
 				</div>
 				<div class="col-md-6 h-50">
 					<img src="assets/Imagem2.png"> 
