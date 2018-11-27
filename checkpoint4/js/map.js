@@ -4,6 +4,19 @@ var fills = {
 	
 };
 
+var num_selec_countries = 0;
+var selec_countries = [];
+var max_countries = 6;
+
+function arrayRemove(arr, value) {
+
+   return arr.filter(function(ele){
+       return ele != value;
+   });
+
+}
+
+
 //basic map config with custom fills, mercator projection
 function Zoom(args) {
 	$.extend(this, {
@@ -381,6 +394,8 @@ Zoom.prototype.init = function() {
 				}
 
 				Datamap.prototype._handleMapReady = function(datamap) {
+					var selected_countries = 0;
+					
 					this.zoom = new Zoom({
 						$container: this.$container,
 						datamap: datamap
@@ -388,20 +403,59 @@ Zoom.prototype.init = function() {
 					
 					datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
 						var state_id = geography.id;
+
 						
-						var countries = ["IRL", "USA", "DEU", "ARG", "AUT", "AUS", "AUT", "BOL", "BRA", "BEL", "CAN", "CHL", "COL", "CRI", "DNK", "SLV", "ECU", "SVK", "ESP", "EST", "PHL", "FIN", "FRA", "GRC", "GTM", "NLD", "HND", "HUN", "IDN", "ISL", "ITA", "JPN", "LVA", "LTU", "LUX", "MYS", "MEX", "NOR", "NZL", "PAN", "PRY", "PER", "PRT", "GBR", "CZE", "DOM", "MEX", "SWE", "CHE", "TWN", "TUR", "URY", "POL", "CHN"]
+						var countries = ["IRL", "USA", "DEU", "ARG", "AUT", "AUS", "AUT", "BOL", "BRA", "BEL", "CAN", "CHL", "COL", "CRI", "DNK", "SLV", "ECU", "SVK", "ESP", "EST", "PHL", "FIN", "FRA", "GRC", "GTM", "NLD", "HND", "HUN", "IDN", "ISL", "ITA", "JPN", "LVA", "LTU", "LUX", "MYS", "MEX", "NOR", "NZL", "PAN", "PRY", "PER", "PRT", "GBR", "CZE", "DOM", "MEX", "SWE", "CHE", "TWN", "TUR", "URY", "POL", "CHN"];
+						
 						if (countries.includes(state_id)) {
+							if (selec_countries.includes(state_id)){
+								console.log(state_id);
+								num_selec_countries--;
+								document.getElementById(state_id).outerHTML = "";
+								console.log(num_selec_countries);
+								selec_countries = jQuery.grep(selec_countries, function(value) {
+								  return value != state_id;
+								});
+								console.log(selec_countries);
+								var fillkey_obj = datamap.options.data[state_id] || {fillKey: 'LOW'};
+								var fillkey = fillkey_obj.fillKey;;
+								var fillkeys = Object.keys(fills);
+								var antikey = fillkeys[Math.abs(fillkeys.indexOf(fillkey) - 1)];
+								var new_fills = {
+									[geography.id] : {
+										fillKey: antikey
+									}
+								};
+								datamap.updateChoropleth(new_fills);
+							}
 							
-							var fillkey_obj = datamap.options.data[state_id] || {fillKey: 'LOW'};
-							var fillkey = fillkey_obj.fillKey;;
-							var fillkeys = Object.keys(fills);
-							var antikey = fillkeys[Math.abs(fillkeys.indexOf(fillkey) - 1)];
-							var new_fills = {
-								[geography.id] : {
-									fillKey: antikey
-								}
-							};
-							datamap.updateChoropleth(new_fills);
+							else if(num_selec_countries < max_countries && num_selec_countries >= 0 && !selec_countries.includes(state_id)) {
+								console.log(state_id);
+									num_selec_countries++;
+									selec_countries.push(state_id);
+									var ul = document.getElementById("lista");
+									var li = document.createElement(state_id);
+									li.className = "list-group-item";
+									li.id = state_id;
+									li.appendChild(document.createTextNode(state_id));
+									ul.appendChild(li);
+								
+								
+									console.log(num_selec_countries);
+									var fillkey_obj = datamap.options.data[state_id] || {fillKey: 'LOW'};
+									var fillkey = fillkey_obj.fillKey;;
+									var fillkeys = Object.keys(fills);
+									var antikey = fillkeys[Math.abs(fillkeys.indexOf(fillkey) - 1)];
+									var new_fills = {
+										[geography.id] : {
+											fillKey: antikey
+										}
+									};
+									datamap.updateChoropleth(new_fills);
+								
+							}
+							
+							
 						}
 						
 						

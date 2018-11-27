@@ -41,12 +41,15 @@
 		  <script src="js/topojson.min.js"></script>
 		  §<script src="js/datamaps.world.js"></script>
           <div class="col-md-6">
-              <div id="container" style="position: relative; width: 650px; height: 625px;"></div>
+              <div id="container" style="position: relative; width: 650px; height: 625px;">
+				  <div style="position: fixed; width: 100px; height: 100px; padding: 20px;"><ul class="list-group" id="lista"></ul></div>
+			  </div>
 			  <button class="zoom-button" data-zoom="reset">0</button>
 			  <button class="zoom-button" data-zoom="out">-</button>
 			  <button class="zoom-button" data-zoom="in">+</button>
 			  <div id="zoom-info"></div>
 			  <script src="js/map.js"></script>
+
 		  </div>
 		  
           <div class="col-md-6">
