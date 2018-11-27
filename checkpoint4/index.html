@@ -1,79 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>How weather influences the music we stream</title>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<title>How weather influences the music we stream</title>
 
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/map.css" rel="stylesheet">
-    <link rel="shortcut icon" href="/assets/favicon.png" type="image/x-icon" />
-    
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-    
-    <link rel="shortcut icon" href="/icon/favicon.ico" type="image/x-icon" />
+	<!-- Bootstrap -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/map.css" rel="stylesheet">
+	<link rel="shortcut icon" href="/assets/favicon.png" type="image/x-icon" />
+	
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="js/bootstrap.min.js"></script>
+	
+	<link rel="shortcut icon" href="/icon/favicon.ico" type="image/x-icon" />
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-      <nav class="navbar navbar-default">
-          <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand">How weather conditions influcences what we listen</a>
-            </div>
-          </div>
-      </nav>
-      
-      <div class="modal-body row">
-		  <script src="js/d3.min.v3.js"></script>
-		  <script src="js/topojson.min.js"></script>
-		  §<script src="js/datamaps.world.js"></script>
-          <div class="col-md-6">
-              <div id="container" style="position: relative; width: 650px; height: 625px;">
-				  <div style="position: fixed; width: 100px; height: 100px; padding: 20px;"><ul class="list-group" id="lista"></ul></div>
-			  </div>
-			  <button class="zoom-button" data-zoom="reset">0</button>
-			  <button class="zoom-button" data-zoom="out">-</button>
-			  <button class="zoom-button" data-zoom="in">+</button>
-			  <div id="zoom-info"></div>
-			  <script src="js/map.js"></script>
+  <![endif]-->
+</head>
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand">How weather conditions influcences what we listen</a>
+			</div>
+		</div>
+	</nav>
+	
+	<div class="modal-body row">
+		<script src="js/d3.min.v3.js"></script>
+		<script src="js/topojson.min.js"></script>
+		<script src="js/datamaps.world.js"></script>
 
-		  </div>
-		  
-          <div class="col-md-6">
-              <div class="row-md-6 h-100">
-                  <div class="col-md-6 h-50">
-                      <img src="assets/Imagem1.png"> 
-                  </div>
-                  <div class="col-md-6 h-50">
-                      <img src="assets/Imagem2.png"> 
-                  </div>
-              </div>
-              <div class="row-md-6">
-                <div class="col-md-6">
-                      <img src="assets/Imagem3.png"> 
-                  </div>
-                  <div class="col-md-6">
-                      <img src="assets/Imagem4.png"> 
-                  </div>
-              </div>
-              
-          </div>
-      </div>
+		<div class="col-md-6">
+			
+			<div class="row-md-6">
+				
+				
+				
+				<div id="container" style="position: relative; width: 650px; height: 600px;">
+					<div style="position: fixed; width: 100px; height: 100px; padding: 20px;"><ul class="list-group" id="lista"></ul></div>
+				</div>
+			</div>
+			
+			<div class="row-md-6">
+				<div class="col-md-6">
+					<div class="container">
+										<button class="zoom-button" data-zoom="reset">0</button>
+				<button class="zoom-button" data-zoom="out">-</button>
+				<button class="zoom-button" data-zoom="in">+</button>
+				<div id="zoom-info"></div>
+				<script src="js/map.js"></script>
+					
+					</div>
+
+					</div>
+				<div class="col-md-6">
+					<link rel="stylesheet" href="css/date/bootstrap-datepicker.css"/>
+					<script type="text/javascript" src="js/date/bootstrap-datepicker.js"></script>
+					
+					
+					<div id="sandbox-container">        
+						<div class="input-daterange input-group" id="datepicker">
+							<input type="text" class="input-sm form-control" value="01/01/2017" name="start" />
+							<span class="input-group-addon">to</span>
+							<input type="text" class="input-sm form-control" value="01/01/2017" name="end" />
+						</div>
+					</div>
+
+					<script>
+						$('#sandbox-container .input-daterange').datepicker({
+							format: "dd/mm/yyyy",
+							startDate: "01/01/2017",
+							endDate: "31/12/2017",
+							defaultViewDate: { year: 2017, month: 01, day: 01 },
+							maxViewMode: 1
+						});
+					</script>
+					
+				</div>
+				
+			</div>
+			
+			
+			
+			
+		</div>
+		
+		<div class="col-md-6">
+			<div class="row-md-6 h-100">
+				<div class="col-md-6 h-50">
+					<img src="assets/Imagem1.png"> 
+				</div>
+				<div class="col-md-6 h-50">
+					<img src="assets/Imagem2.png"> 
+				</div>
+			</div>
+			<div class="row-md-6">
+				<div class="col-md-6">
+					<img src="assets/Imagem3.png"> 
+				</div>
+				<div class="col-md-6">
+					<img src="assets/Imagem4.png"> 
+				</div>
+			</div>
+			
+		</div>
+	</div>
 
 
-     
-  </body>
+	
+</body>
 </html>
