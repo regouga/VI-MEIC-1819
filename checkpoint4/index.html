@@ -12,12 +12,12 @@
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/map.css" rel="stylesheet">
 	<link rel="shortcut icon" href="/assets/favicon.png" type="image/x-icon" />
-	
+
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="js/bootstrap.min.js"></script>
-	
+
 	<link rel="shortcut icon" href="/icon/favicon.ico" type="image/x-icon" />
 
 
@@ -36,23 +36,23 @@
 			</div>
 		</div>
 	</nav>
-	
+
 	<div class="modal-body row">
 		<script src="js/d3.min.v3.js"></script>
 		<script src="js/topojson.min.js"></script>
 		<script src="js/datamaps.world.js"></script>
 
 		<div class="col-md-6">
-			
+
 			<div class="row-md-6">
-				
-				
-				
+
+
+
 				<div id="container" style="position: relative; width: 650px; height: 600px;">
 					<div style="position: fixed; width: 100px; height: 100px; padding: 20px;"><ul class="list-group" id="lista"></ul></div>
 				</div>
 			</div>
-			
+
 			<div class="row-md-6">
 				<div class="col-md-6">
 					<div class="container">
@@ -61,16 +61,16 @@
 				<button class="zoom-button" data-zoom="in">+</button>
 				<div id="zoom-info"></div>
 				<script src="js/map.js"></script>
-					
+
 					</div>
 
 					</div>
 				<div class="col-md-6">
 					<link rel="stylesheet" href="css/date/bootstrap-datepicker.css"/>
 					<script type="text/javascript" src="js/date/bootstrap-datepicker.js"></script>
-					
-					
-					<div id="sandbox-container">        
+
+
+					<div id="sandbox-container">
 						<div class="input-daterange input-group" id="datepicker">
 							<input type="text" class="input-sm form-control" value="01/01/2017" name="start" id="start"/>
 							<span class="input-group-addon">to</span>
@@ -86,43 +86,57 @@
 							defaultViewDate: { year: 2017, month: 01, day: 01 },
 							maxViewMode: 1
 						});
-						
+
 						var dates = $('#start').val();
 						console.log(dates.toString());
 					</script>
-					
+
 				</div>
-				
+
 			</div>
-			
-			
-			
-			
+
+
+
+
 		</div>
-		
+
 		<div class="col-md-6">
 			<div class="row-md-6 h-100">
 				<div class="col-md-6 h-50">
 					lista das músicas
-					
+
 				</div>
 				<div class="col-md-6 h-50">
-					<img src="assets/Imagem2.png"> 
+					<img src="assets/Imagem2.png">
 				</div>
 			</div>
 			<div class="row-md-6">
-				<div class="col-md-6">
-					<img src="assets/Imagem3.png"> 
+				<div class="col-md-6", id='sunburst'>
+					<script src="//d3js.org/d3.v5.min.js"></script>
+					<script src="//unpkg.com/sunburst-chart"></script>
 				</div>
 				<div class="col-md-6">
-					<img src="assets/Imagem4.png"> 
+					<img src="assets/Imagem4.png">
 				</div>
 			</div>
-			
+
 		</div>
 	</div>
 
+	<script>
+		const color = d3.scaleOrdinal(d3.schemePaired);
 
-	
+		d3.json('sunburst/20170101.json').then(data => {
+		  Sunburst()
+		    .data(data)
+		    .label('name')
+		    .size('Stream_Count')
+		    .color((d, parent) => color(parent ? parent.data.name : null))
+		    .tooltipContent((d, node) => `Streams: <i>${node.value}</i>`)
+		    (document.getElementById('sunburst'));
+		});
+  	</script>
+
+
 </body>
 </html>
