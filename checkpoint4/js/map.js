@@ -60,7 +60,7 @@ var countryISOMapping = {
   CAF: "CF",
   TCD: "TD",
   CHL: "cl",
-  CHN: "CN",
+  CHN: "cn",
   HKG: "hk",
   MAC: "MO",
   CXR: "CX",
@@ -263,6 +263,8 @@ var countryISOMapping = {
   ZMB: "ZM",
   ZWE: "ZW"
 }
+
+
 
 
 function tabulate(data, columns, id) {
@@ -745,12 +747,28 @@ Zoom.prototype.init = function() {
 								
 								
 									var teste = [];
-									d3.csv("map/map_dataset.csv", function(csv) {
+									var str67 = "map/"
+									var str68 = getCountryISO2(state_id);
+									var str69 = ".csv"
+									var str70 = str67.concat(str68, str69)
+								
+									
+									d3.csv(str70, function(csv) {
 										console.log("Estou aqui");
+										console.log(teste);
+										debugger;
 										for (var i = 0; i < selec_dates.length; i++) {
 
 											var current_date = selec_dates[i].toLocaleDateString("pt-PT");
 											console.log(current_date);
+											
+											var div = document.getElementById('listamusicas');
+										var str1 = "<p style=\"font-size: 15px;\">Top 50 in "
+										var str2 = state_id;
+										var str3 = " in "	
+										var str4 = current_date;
+										var res = str1.concat(str2, str3, str4);
+										div.innerHTML += res;
 											
 											csv.forEach(function(d) {
 											if (d.Date == current_date && d.Country == getCountryISO2(state_id)) teste.push(d);
@@ -792,19 +810,15 @@ Zoom.prototype.init = function() {
 										}
 
 										// render the tables
-										
-										var div = document.getElementById('listamusicas');
-										var str1 = "Top 50 in "
-										var str2 = state_id;
-										var str3 = current_date;
-										var res = str1.concat(str2, str3);
-										div.innerHTML += res;
-										div.innerHTML += "<br><br>";
-										tabulate(teste, ['Position', 'Track Name', 'Artist']); // 2 column table
-										div.innerHTML += "<br><br><br>";
 											
+																					tabulate(teste, ['Position', 'Track Name', 'Artist']); // 2 column table
+										div.innerHTML += "<br><br><br>";
+										teste = [];
 											
 										}
+										
+																				
+
 										
 									});
 
