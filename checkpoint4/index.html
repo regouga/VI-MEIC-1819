@@ -24,7 +24,7 @@
 		var max_countries = 6;
 		var start_date = null;
 		var end_date = null;
-		var selec_dates = [];
+		var selec_dates = [new Date(2017, 01, 01)];
 	</script>
 
 	<link rel="shortcut icon" href="/icon/favicon.ico" type="image/x-icon" />
@@ -114,6 +114,10 @@
 						$('#sandbox-container .input-daterange').datepicker().on('changeDate', function (ev) {
 						  var sd = new Date($('#start').val());
 							
+							var diva = document.getElementById('listamusicas');
+							diva.innerHTML = "";
+							
+							
 						start_date=sd.toString();
 							console.log(start_date);
 						
@@ -135,6 +139,8 @@
 						
 						selec_dates = getDateArray(sd, ed);
 							console.log(selec_dates);
+							
+							
 						});
 
 						
