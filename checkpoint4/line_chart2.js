@@ -6,11 +6,11 @@ var margin = {top: 50, right: 50, bottom: 50, left: 50}
 var n = 21;
 
 // 5. X scale will use the index of our data
-var x = d3.scaleLinear()
+var xScale = d3.scaleLinear()
     .range([0, width]); // output
 
 // 6. Y scale will use the randomly generate number 
-var y = d3.scaleLinear() 
+var yScale = d3.scaleLinear() 
     .range([height, 0]); // output 
 console.log("line_chart eheh");
 console.log(selec_countries);
@@ -29,8 +29,8 @@ var dataset = d3.range(n).map(function(d) {
   return {"y": d3.csv("Dataset.csv", function(data) {
   
   console.log(data[0]);
-  data.filter(function(d) { return d.Country == "ar" });
-  data.filter(function(d) { return d.Country == "ar" });
+  //data.filter(function(d) { return d.Country == "ar" });
+  //data.filter(function(d) { return d.Country == "ar" });
 }) } 
 })
 
