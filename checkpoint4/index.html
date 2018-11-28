@@ -17,6 +17,13 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="js/bootstrap.min.js"></script>
+	
+	<script type='text/javascript' > 
+		var num_selec_countries = 0;
+		var selec_countries = [];
+		var max_countries = 6;
+		var start_date = null;
+	</script>
 
 	<link rel="shortcut icon" href="/icon/favicon.ico" type="image/x-icon" />
 
@@ -51,6 +58,12 @@
 				<div id="container" style="position: relative; width: 650px; height: 600px;">
 					<div style="position: fixed; width: 100px; height: 100px; padding: 20px;"><ul class="list-group" id="lista"></ul></div>
 				</div>
+				
+				
+				<script>
+					
+					</script>
+
 			</div>
 
 			<div class="row-md-6">
@@ -89,6 +102,7 @@
 
 						var dates = $('#start').val();
 						console.log(dates.toString());
+						start_date=dates.toString();
 					</script>
 
 				</div>
@@ -104,7 +118,8 @@
 			<div class="row-md-6 h-100">
 				<div class="col-md-6 h-50">
 					lista das músicas
-
+<!--					<script type='text/javascript' src='js/test.js'></script>-->
+					
 				</div>
 				<div class="col-md-6 h-50">
 					<img src="assets/Imagem2.png">
@@ -112,7 +127,7 @@
 			</div>
 			<div class="row-md-6">
 				<div class="col-md-6", id='sunburst'>
-					<script src="//d3js.org/d3.v5.min.js"></script>
+<!--					<script src="//d3js.org/d3.v5.min.js"></script>-->
 					<script src="//unpkg.com/sunburst-chart"></script>
 				</div>
 				<div class="col-md-6">

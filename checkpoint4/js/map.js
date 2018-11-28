@@ -4,10 +4,6 @@ var fills = {
 	
 };
 
-var num_selec_countries = 0;
-var selec_countries = [];
-var max_countries = 6;
-
 function arrayRemove(arr, value) {
 
    return arr.filter(function(ele){
@@ -15,6 +11,309 @@ function arrayRemove(arr, value) {
    });
 
 }
+
+
+
+var countryISOMapping = {
+  AFG: "AF",
+  ALA: "AX",
+  ALB: "AL",
+  DZA: "DZ",
+  ASM: "AS",
+  AND: "AD",
+  AGO: "AO",
+  AIA: "AI",
+  ATA: "AQ",
+  ATG: "AG",
+  ARG: "ar",
+  ARM: "AM",
+  ABW: "AW",
+  AUS: "au",
+  AUT: "at",
+  AZE: "AZ",
+  BHS: "BS",
+  BHR: "BH",
+  BGD: "BD",
+  BRB: "BB",
+  BLR: "BY",
+  BEL: "be",
+  BLZ: "BZ",
+  BEN: "BJ",
+  BMU: "BM",
+  BTN: "BT",
+  BOL: "bo",
+  BIH: "BA",
+  BWA: "BW",
+  BVT: "BV",
+  BRA: "br",
+  VGB: "VG",
+  IOT: "IO",
+  BRN: "BN",
+  BGR: "BG",
+  BFA: "BF",
+  BDI: "BI",
+  KHM: "KH",
+  CMR: "CM",
+  CAN: "ca",
+  CPV: "CV",
+  CYM: "KY",
+  CAF: "CF",
+  TCD: "TD",
+  CHL: "cl",
+  CHN: "CN",
+  HKG: "hk",
+  MAC: "MO",
+  CXR: "CX",
+  CCK: "CC",
+  COL: "co",
+  COM: "KM",
+  COG: "CG",
+  COD: "CD",
+  COK: "CK",
+  CRI: "cr",
+  CIV: "CI",
+  HRV: "HR",
+  CUB: "CU",
+  CYP: "CY",
+  CZE: "cz",
+  DNK: "dk",
+  DJI: "DJ",
+  DMA: "DM",
+  DOM: "do",
+  ECU: "ec",
+  EGY: "EG",
+  SLV: "sv",
+  GNQ: "GQ",
+  ERI: "ER",
+  EST: "ee",
+  ETH: "ET",
+  FLK: "FK",
+  FRO: "FO",
+  FJI: "FJ",
+  FIN: "fi",
+  FRA: "fr",
+  GUF: "GF",
+  PYF: "PF",
+  ATF: "TF",
+  GAB: "GA",
+  GMB: "GM",
+  GEO: "GE",
+  DEU: "de",
+  GHA: "GH",
+  GIB: "GI",
+  GRC: "gr",
+  GRL: "GL",
+  GRD: "GD",
+  GLP: "GP",
+  GUM: "GU",
+  GTM: "gt",
+  GGY: "GG",
+  GIN: "GN",
+  GNB: "GW",
+  GUY: "GY",
+  HTI: "HT",
+  HMD: "HM",
+  VAT: "VA",
+  HND: "hn",
+  HUN: "hu",
+  ISL: "is",
+  IND: "IN",
+  IDN: "id",
+  IRN: "IR",
+  IRQ: "IQ",
+  IRL: "ie",
+  IMN: "IM",
+  ISR: "IL",
+  ITA: "it",
+  JAM: "JM",
+  JPN: "jp",
+  JEY: "JE",
+  JOR: "JO",
+  KAZ: "KZ",
+  KEN: "KE",
+  KIR: "KI",
+  PRK: "KP",
+  KOR: "KR",
+  KWT: "KW",
+  KGZ: "KG",
+  LAO: "LA",
+  LVA: "lv",
+  LBN: "LB",
+  LSO: "LS",
+  LBR: "LR",
+  LBY: "LY",
+  LIE: "LI",
+  LTU: "lt",
+  LUX: "lu",
+  MKD: "MK",
+  MDG: "MG",
+  MWI: "MW",
+  MYS: "my",
+  MDV: "MV",
+  MLI: "ML",
+  MLT: "MT",
+  MHL: "MH",
+  MTQ: "MQ",
+  MRT: "MR",
+  MUS: "MU",
+  MYT: "YT",
+  MEX: "mx",
+  FSM: "FM",
+  MDA: "MD",
+  MCO: "MC",
+  MNG: "MN",
+  MNE: "ME",
+  MSR: "MS",
+  MAR: "MA",
+  MOZ: "MZ",
+  MMR: "MM",
+  NAM: "NA",
+  NRU: "NR",
+  NPL: "NP",
+  NLD: "nl",
+  ANT: "AN",
+  NCL: "NC",
+  NZL: "nz",
+  NIC: "NI",
+  NER: "NE",
+  NGA: "NG",
+  NIU: "NU",
+  NFK: "NF",
+  MNP: "MP",
+  NOR: "no",
+  OMN: "OM",
+  PAK: "PK",
+  PLW: "PW",
+  PSE: "PS",
+  PAN: "pa",
+  PNG: "PG",
+  PRY: "py",
+  PER: "pe",
+  PHL: "ph",
+  PCN: "PN",
+  POL: "pl",
+  PRT: "pt",
+  PRI: "PR",
+  QAT: "QA",
+  REU: "RE",
+  ROU: "RO",
+  RUS: "RU",
+  RWA: "RW",
+  BLM: "BL",
+  SHN: "SH",
+  KNA: "KN",
+  LCA: "LC",
+  MAF: "MF",
+  SPM: "PM",
+  VCT: "VC",
+  WSM: "WS",
+  SMR: "SM",
+  STP: "ST",
+  SAU: "SA",
+  SEN: "SN",
+  SRB: "RS",
+  SYC: "SC",
+  SLE: "SL",
+  SGP: "sg",
+  SVK: "sk",
+  SVN: "SI",
+  SLB: "SB",
+  SOM: "SO",
+  ZAF: "ZA",
+  SGS: "GS",
+  SSD: "SS",
+  ESP: "es",
+  LKA: "LK",
+  SDN: "SD",
+  SUR: "SR",
+  SJM: "SJ",
+  SWZ: "SZ",
+  SWE: "se",
+  CHE: "ch",
+  SYR: "SY",
+  TWN: "tw",
+  TJK: "TJ",
+  TZA: "TZ",
+  THA: "TH",
+  TLS: "TL",
+  TGO: "TG",
+  TKL: "TK",
+  TON: "TO",
+  TTO: "TT",
+  TUN: "TN",
+  TUR: "tr",
+  TKM: "TM",
+  TCA: "TC",
+  TUV: "TV",
+  UGA: "UG",
+  UKR: "UA",
+  ARE: "AE",
+  GBR: "gb",
+  USA: "us",
+  UMI: "UM",
+  URY: "uy",
+  UZB: "UZ",
+  VUT: "VU",
+  VEN: "VE",
+  VNM: "VN",
+  VIR: "VI",
+  WLF: "WF",
+  ESH: "EH",
+  YEM: "YE",
+  ZMB: "ZM",
+  ZWE: "ZW"
+}
+
+
+function tabulate(data, columns, id) {
+    var table = d3.select(id).append("table"),
+        thead = table.append("thead"),
+        tbody = table.append("tbody");
+
+    // append the header row
+    thead.append("tr")
+        .selectAll("th")
+        .data(columns)
+        .enter()
+        .append("th")
+        .text(function(column) { return column; });
+
+    // create a row for each object in the data
+    var rows = tbody.selectAll("tr")
+        .data(data)
+        .enter()
+        .append("tr");
+
+    // create a cell in each row for each column
+    // At this point, the rows have data associated.
+    // So the data function accesses it.
+    var cells = rows.selectAll("td")
+        .data(function(row) {
+            // he does it this way to guarantee you only use the
+            // values for the columns you provide.
+            return columns.map(function(column) {
+                // return a new object with a value set to the row's column value.
+                return {value: row[column]};
+            });
+        })
+        .enter()
+        .append("td")
+        .text(function(d) { return d.value; });
+    return table;
+}
+
+// render the table
+// var peopleTable = tabulate(data, ["date", "close"]);
+
+
+
+function getCountryISO2(countryCode) {
+  return countryISOMapping[countryCode]
+}
+
+var result = getCountryISO2("BRA")
+console.log(result);
+
 
 
 //basic map config with custom fills, mercator projection
@@ -441,6 +740,54 @@ Zoom.prototype.init = function() {
 									ul.appendChild(li);
 								
 								
+								    
+									var teste = [];
+									d3.csv("map/map_dataset.csv", function(csv) {
+										csv.forEach(function(d) {
+											if (d.Date == "02/01/2017" && d.Country == getCountryISO2(state_id)) teste.push(d);
+										});
+
+
+										function tabulate(data, columns) {
+											var table = d3.select('body').append('table')
+											var thead = table.append('thead')
+											var	tbody = table.append('tbody');
+
+											// append the header row
+											thead.append('tr')
+											  .selectAll('th')
+											  .data(columns).enter()
+											  .append('th')
+												.text(function (column) { return column; });
+
+											// create a row for each object in the data
+											var rows = tbody.selectAll('tr')
+											  .data(data)
+											  .enter()
+											  .append('tr');
+
+											// create a cell in each row for each column
+											var cells = rows.selectAll('td')
+											  .data(function (row) {
+												return columns.map(function (column) {
+												  return {column: column, value: row[column]};
+												});
+											  })
+											  .enter()
+											  .append('td')
+												.text(function (d) { return d.value; });
+
+										  return table;
+										}
+
+										// render the tables
+										tabulate(teste, ['Track Name', 'Artist', 'Country', 'Date']); // 2 column table
+
+
+									});
+
+								
+								
 									console.log(num_selec_countries);
 									var fillkey_obj = datamap.options.data[state_id] || {fillKey: 'LOW'};
 									var fillkey = fillkey_obj.fillKey;;
@@ -467,3 +814,8 @@ Zoom.prototype.init = function() {
 				}
 
 				new Datamap();
+
+
+
+
+
