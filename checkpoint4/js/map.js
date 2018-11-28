@@ -740,16 +740,25 @@ Zoom.prototype.init = function() {
 									ul.appendChild(li);
 								
 								
-								    
+								   
+								
+								
+								
 									var teste = [];
 									d3.csv("map/map_dataset.csv", function(csv) {
-										csv.forEach(function(d) {
-											if (d.Date == "02/01/2017" && d.Country == getCountryISO2(state_id)) teste.push(d);
+										console.log("Estou aqui");
+										for (var i = 0; i < selec_dates.length; i++) {
+
+											var current_date = selec_dates[i].toLocaleDateString("pt-PT");
+											console.log(current_date);
+											
+											csv.forEach(function(d) {
+											if (d.Date == current_date && d.Country == getCountryISO2(state_id)) teste.push(d);
 										});
 
 
 										function tabulate(data, columns) {
-											var table = d3.select('body').append('table')
+											var table = d3.select('#listamusicas').append('table')
 											var thead = table.append('thead')
 											var	tbody = table.append('tbody');
 
@@ -758,7 +767,9 @@ Zoom.prototype.init = function() {
 											  .selectAll('th')
 											  .data(columns).enter()
 											  .append('th')
-												.text(function (column) { return column; });
+												.text(function (column) { 
+												if (column == "Position") return "#"
+												else return column; });
 
 											// create a row for each object in the data
 											var rows = tbody.selectAll('tr')
@@ -781,9 +792,20 @@ Zoom.prototype.init = function() {
 										}
 
 										// render the tables
-										tabulate(teste, ['Track Name', 'Artist', 'Country', 'Date']); // 2 column table
-
-
+										
+										var div = document.getElementById('listamusicas');
+										var str1 = "Top 50 in "
+										var str2 = state_id;
+										var str3 = current_date;
+										var res = str1.concat(str2, str3);
+										div.innerHTML += res;
+										div.innerHTML += "<br><br>";
+										tabulate(teste, ['Position', 'Track Name', 'Artist']); // 2 column table
+										div.innerHTML += "<br><br><br>";
+											
+											
+										}
+										
 									});
 
 								

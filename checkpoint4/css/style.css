@@ -5,3 +5,9 @@
     width: 100%;
 }
 .navbar-brand {float:none;}
+
+
+th { text-align: left; }
+td { padding: 0 2em 1ex 0;}
+th.center, td.center { text-align: center; }
+th.num, td.num { text-align: right; }
