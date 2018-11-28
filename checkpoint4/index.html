@@ -111,7 +111,7 @@
 				</div>
 			</div>
 			<div class="row-md-6">
-				<div class="col-md-6", id='sunburst'>
+				<div class="col-md-6", id='sunburst', align="center">
 					<script src="//d3js.org/d3.v5.min.js"></script>
 					<script src="//unpkg.com/sunburst-chart"></script>
 				</div>
@@ -131,6 +131,9 @@
 		    .data(data)
 		    .label('name')
 		    .size('Stream_Count')
+       // .minSliceAngle(20)
+       .width(400)
+       .height(400)
 		    .color((d, parent) => color(parent ? parent.data.name : null))
 		    .tooltipContent((d, node) => `Streams: <i>${node.value}</i>`)
 		    (document.getElementById('sunburst'));
