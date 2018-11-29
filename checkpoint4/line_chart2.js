@@ -28,9 +28,9 @@ var margin = {
 
 var width = 400 - margin.left - margin.right,height = 400 - margin.top - margin.bottom;
 
-var xScale = d3.scaleTime()
-  .domain(selec_dates)
-  .range([0, width]);
+var xScale = d3.scaleTime().range([0, width]);
+
+xScale.domain(d3.extent(selec_dates, function(d) { return d; }));
 
 var yScale = d3.scaleLinear()
   .range([height, 0])
@@ -40,6 +40,7 @@ var yScale = d3.scaleLinear()
 
 var xAxis = d3.axisBottom()
     .scale(xScale)
+    .ticks(selec_dates.length-1)
     .tickFormat(d3.timeFormat("%d %b"));
   yAxis = d3.axisLeft(yScale);
 
