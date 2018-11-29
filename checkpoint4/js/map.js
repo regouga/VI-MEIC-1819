@@ -551,6 +551,12 @@ Zoom.prototype.init = function() {
 						},
 						geographyConfig: {
 							highlightOnHover: false,
+							popupTemplate: function(geo, data) {
+								return ['<div class="hoverinfo"><strong>',
+										geo.properties.name,
+										'<br> <img src="w.png" style="width: 20px; height: 20px;">',
+										'</strong></div>'].join('');
+							}
 						},
 						done: this._handleMapReady.bind(this),
 						
@@ -606,27 +612,13 @@ Zoom.prototype.init = function() {
 									li.id = state_id;
 									li.appendChild(document.createTextNode(state_id));
 									ul.appendChild(li);
-								
-								
-								   
-								
-								
-								
+
 									var teste = [];
 									var str67 = "map/"
 									var str68 = getCountryISO2(state_id);
 									var str69 = ".csv"
 									var str70 = str67.concat(str68, str69)
-									
-									debugger;
-									d3.dsv(",", str70, function(d) {
-									  return {
-										Date: d.Date
-									  };
-									}).then(function(data) {
-									  console.log(data);
-									});
-									
+
 									d3.dsv(",", str70, function(csv) {
 									  return {
 										Country: csv.Country,
