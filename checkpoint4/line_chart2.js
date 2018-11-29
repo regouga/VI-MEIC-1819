@@ -1,28 +1,12 @@
-function randomData(samples) {
-  var data = [];
-
-  for (i = 0; i < samples; i++) {
-    data.push({
-      x: i,
-      y: Math.sin(Math.random()),
-      name: "group-" + i%2
-    });
-  }
-
-  data.sort(function(a, b) {
-    return a.x - b.x;
-  })
-  return data;
-}
-
-
 
 var data;
 var streamsInCountry = [];
+var dias = []
 d3.csv("line_chart/ar.csv", function(csvdata) {
 	data = csvdata;
 	for (var j = 0; j < selec_dates.length; j++) {
 		var current_date = selec_dates[j].toLocaleDateString("pt-PT");
+    dias.push(current_date);
 		data.forEach(function(d) {
 			if (current_date == d.Date) {
 				streamsInCountry.push(d);
@@ -30,11 +14,6 @@ d3.csv("line_chart/ar.csv", function(csvdata) {
 		});
 	}
 });
-
-
-
-
-
 
 // Set colour Scale
 let colour = d3.scaleOrdinal(d3.schemeCategory20);
@@ -47,14 +26,11 @@ var margin = {
   left: 50
 };
 
-var width = 400 - margin.left - margin.right,
-  height = 400 - margin.top - margin.bottom;
+var width = 400 - margin.left - margin.right,height = 400 - margin.top - margin.bottom;
 
-var xScale = d3.scaleOrdinal()
-  .range([0, width])
-  .domain(d3.map(selec_dates, function(d) {
-    return d.Date;
-  }));
+var xScale = d3.scaleTime()
+  .domain(selec_dates)
+  .range([0, width]);
 
 var yScale = d3.scaleLinear()
   .range([height, 0])
@@ -62,7 +38,9 @@ var yScale = d3.scaleLinear()
     return d.Streams;
   })).nice();
 
-var xAxis = d3.axisBottom(xScale);
+var xAxis = d3.axisBottom()
+    .scale(xScale)
+    .tickFormat(d3.timeFormat("%d %b"));
   yAxis = d3.axisLeft(yScale);
 
 var plotLine = d3.line()
