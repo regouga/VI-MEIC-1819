@@ -13,6 +13,60 @@ function arrayRemove(arr, value) {
 }
 
 
+var countryISO3Mapping = {
+  ar: "ARG",
+  au: "AUS",
+  at: "AUT",
+  be: "BEL",
+//  CAN: "ca",
+//  CHL: "cl",
+//  CHN: "hk",
+//  COL: "co",
+//  CRI: "cr",
+//  CZE: "cz",
+//  DNK: "dk",
+//  DOM: "do",
+//  ECU: "ec",
+//  SLV: "sv",
+//  EST: "ee",
+//  FIN: "fi",
+//  FRA: "fr",
+//  DEU: "de",
+//  GRC: "gr",
+//  GTM: "gt",
+//  HND: "hn",
+//  HUN: "hu",
+//  ISL: "is",
+//  IDN: "id",
+//  IRL: "ie",
+//  ITA: "it",
+//  JPN: "jp",
+//  LVA: "lv",
+//  LTU: "lt",
+//  LUX: "lu",
+//  MYS: "my",
+//  MEX: "mx",
+//  NLD: "nl",
+//  NZL: "nz",
+//  NOR: "no",
+//  PAN: "pa",
+//  PRY: "py",
+//  PER: "pe",
+//  PHL: "ph",
+//  POL: "pl",
+//  PRT: "pt",
+//  SGP: "sg",
+//  SVK: "sk",
+//  ESP: "es",
+//  SWE: "se",
+//  CHE: "ch",
+//  TWN: "tw",
+//  TUR: "tr",
+//  GBR: "gb",
+//  USA: "us",
+//  URY: "uy",
+}
+	
 
 var countryISOMapping = {
   ARG: "ar",
@@ -69,8 +123,6 @@ var countryISOMapping = {
   USA: "us",
   URY: "uy",
 }
-
-
 
 var countrynaming = {
   ARG: "Argentina",
@@ -170,6 +222,10 @@ function tabulate(data, columns, id) {
 // var peopleTable = tabulate(data, ["date", "close"]);
 
 
+function getCountryISO3(countryCode) {
+  return countryISO3Mapping[countryCode]
+}
+
 
 function getCountryISO2(countryCode) {
   return countryISOMapping[countryCode]
@@ -179,8 +235,11 @@ function getCountryName(countryCode) {
   return countrynaming[countryCode]
 }
 
-var result = getCountryISO2("BRA")
-console.log(result);
+
+var cenas;
+d3.csv("map/weather_by_day.csv", function(csvdata) {
+	cenas = csvdata;
+});
 
 
 
@@ -374,6 +433,10 @@ Zoom.prototype.init = function() {
 					return scaleSet[shift];
 				};
 
+
+
+
+
 				function Datamap() {
 					this.$container = $("#container");
 					this.instance = new Datamaps({
@@ -385,7 +448,10 @@ Zoom.prototype.init = function() {
 							LOW: '#000000',
 							defaultFill: '#BEBEBE',
 						},
+						
 						data: {
+							
+							
 							IRL: {
 								fillKey: 'HIGH'
 							},
@@ -551,11 +617,144 @@ Zoom.prototype.init = function() {
 						},
 						geographyConfig: {
 							highlightOnHover: false,
-							popupTemplate: function(geo, data) {
-								return ['<div class="hoverinfo"><strong>',
-										geo.properties.name,
-										'<br> <img src="w.png" style="width: 20px; height: 20px;">',
+							popupTemplate: function(geo, csvdata1) {
+								debugger;
+								console.log(getCountryISO2(geo.id));
+								console.log(selec_dates);
+								
+								var lol;
+								
+								
+								var current_date = selec_dates[0].toLocaleDateString("pt-PT");
+								cenas.forEach(function(d) {
+									if (d.id == getCountryISO2(geo.id) && d.Date == current_date) {
+										var indicators = d.Indicators;
+										console.log(indicators);
+										if (indicators == "0 0 0 0 0 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
 										'</strong></div>'].join('');
+										}
+										
+										
+										else if (indicators == "0 1 0 0 0 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "1 1 1 0 0 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										
+										else if (indicators == "1 0 0 0 0 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "1 0 1 0 0 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "0 0 1 0 0 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "0 1 1 0 0 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "0 1 0 0 1 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "1 1 0 0 0 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "0 1 1 1 1 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "1 1 1 0 1 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "0 0 0 0 1 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "0 1 1 0 1 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "1 1 0 0 1 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "0 1 1 1 0 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "0 1 0 1 1 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "0 1 0 1 0 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "0 0 0 0 1 1") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "1 0 1 0 0 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "1 1 0 1 1 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "0 1 0 0 1 1") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "1 1 1 1 0 0") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
+										'</strong></div>'].join('');
+										}
+										
+										else if (indicators == "0 1 0 0 0 1") {
+											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px;">',
+										'</strong></div>'].join('');
+										}
+										
+									}
+									
+								});
+								
+								
+								return lol;
+								
+							
 							}
 						},
 						done: this._handleMapReady.bind(this),
