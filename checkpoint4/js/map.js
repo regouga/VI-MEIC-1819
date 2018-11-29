@@ -60,7 +60,7 @@ var countryISOMapping = {
   CAF: "CF",
   TCD: "TD",
   CHL: "cl",
-  CHN: "cn",
+  CHN: "CN",
   HKG: "hk",
   MAC: "MO",
   CXR: "CX",
@@ -751,9 +751,29 @@ Zoom.prototype.init = function() {
 									var str68 = getCountryISO2(state_id);
 									var str69 = ".csv"
 									var str70 = str67.concat(str68, str69)
-								
 									
-									d3.csv(str70, function(csv) {
+									debugger;
+									d3.dsv(",", str70, function(d) {
+									  return {
+										Date: d.Date
+									  };
+									}).then(function(data) {
+									  console.log(data);
+									});
+									
+									d3.dsv(",", str70, function(csv) {
+									  return {
+										Country: csv.Country,
+										Date: csv.Date,
+										TrackName: csv.TrackName,
+										Artist: csv.Artist,
+										Position: csv.Position  
+										  
+									  };
+									}).then(function(csv) {
+										
+										
+										
 										console.log("Estou aqui");
 										console.log(teste);
 										debugger;
@@ -811,7 +831,7 @@ Zoom.prototype.init = function() {
 
 										// render the tables
 											
-																					tabulate(teste, ['Position', 'Track Name', 'Artist']); // 2 column table
+										tabulate(teste, ['Position', 'TrackName', 'Artist']); // 2 column table
 										div.innerHTML += "<br><br><br>";
 										teste = [];
 											

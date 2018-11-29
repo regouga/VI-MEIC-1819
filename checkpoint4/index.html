@@ -24,7 +24,7 @@
 		var max_countries = 6;
 		var start_date = null;
 		var end_date = null;
-		var selec_dates = [new Date(2017, 01, 01)];
+		var selec_dates = [new Date(2017, 2, 1)];
 	</script>
 
 	<link rel="shortcut icon" href="/icon/favicon.ico" type="image/x-icon" />
@@ -107,7 +107,6 @@
 							format: "mm/dd/yyyy",
 							startDate: "01/01/2017",
 							endDate: "12/31/2017",
-							defaultViewDate: { year: 2017, month: 01, day: 01 },
 							maxViewMode: 1
 						});
 						
@@ -171,7 +170,7 @@
 			</div>
 			<div class="row-md-6">
 				<div class="col-md-6", id='sunburst', align="center">
-					<!--<script src="//d3js.org/d3.v5.min.js"></script>-->
+					<script src="//d3js.org/d3.v5.min.js"></script>
 					<script src="//unpkg.com/sunburst-chart"></script>
 				</div>
 				<div class="col-md-6">
