@@ -1,84 +1,277 @@
-// set the dimensions and margins of the graph
-var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+function randomData(samples) {
+  var data = [];
 
-// parse the date / time
-var parseTime = d3.timeParse("%d/%b/%y");
-
-// set the ranges
-var x = d3.scaleOrdinal().range([0, width]);
-var y = d3.scaleLinear().range([height, 0]);
-
-
-
-// define the line
-var valueline = d3.line()
-    .x(function(d) { return x(d.Date); })
-    .y(function(d) { return y(d.Streams); });
-
-
-// append the svg obgect to the body of the page
-// appends a 'group' element to 'svg'
-// moves the 'group' element to the top left margin
-var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
-// Get the data
-d3.csv("line_chart/ar.csv", function(error, data) {
-
-  if (error) throw error;
-
-  // format the data
-  var i = 0;
-  var dates_new = [];
-  var current_date = null;
-  console.log("#############");
-  selec_dates.forEach(function(d){
-    current_date = selec_dates[i++].toLocaleDateString("pt-PT");
-    console.log(current_date);
-    data.forEach(function(d) {
-      if(d.Date == current_date){
-
-        dates_new.push({date:current_date, Streams:d.Streams});
-        console.log("%%%%%%%%");
-        console.log(current_date);
-        console.log(d.Streams);
-        dates_new.forEach(function(d){console.log(d.date);});
-        dates_new.forEach(function(d){console.log(d.Streams);});
-
-        console.log("%%%%%%%%");
-      }
-        
+  for (i = 0; i < samples; i++) {
+    data.push({
+      x: i,
+      y: Math.sin(Math.random()),
+      name: "group-" + i%2
     });
+  }
+
+  data.sort(function(a, b) {
+    return a.x - b.x;
+  })
+  return data;
+}
+
+
+
+var data;
+var streamsInCountry = [];
+d3.csv("line_chart/ar.csv", function(csvdata) {
+	data = csvdata;
+	for (var j = 0; j < selec_dates.length; j++) {
+		var current_date = selec_dates[j].toLocaleDateString("pt-PT");
+		data.forEach(function(d) {
+			if (current_date == d.Date) {
+				streamsInCountry.push(d);
+			}
+		});
+	}
+});
+
+
+
+
+
+
+// Set colour Scale
+let colour = d3.scaleOrdinal(d3.schemeCategory20);
+
+/*********************** Plot Below *********************/
+var margin = {
+  top: 20,
+  right: 20,
+  bottom: 30,
+  left: 50
+};
+
+var width = 400 - margin.left - margin.right,
+  height = 400 - margin.top - margin.bottom;
+
+var xScale = d3.scaleOrdinal()
+  .range([0, width])
+  .domain(d3.map(selec_dates, function(d) {
+    return d.Date;
+  }));
+
+var yScale = d3.scaleLinear()
+  .range([height, 0])
+  .domain(d3.extent(streamsInCountry, function(d) {
+    return d.Streams;
+  })).nice();
+
+var xAxis = d3.axisBottom(xScale);
+  yAxis = d3.axisLeft(yScale);
+
+var plotLine = d3.line()
+  .curve(d3.curveMonotoneX)
+  .x(function(d) {
+    return xScale(d.Date);
+  })
+  .y(function(d) {
+    return yScale(d.Streams);
   });
   
-  // Scale the range of the data
-  debugger;
-  //x.domain(d3.extent(dates_new, function(d) { return d.date; }));
+// Nest the entries by name
+var dataNest = d3.nest()
+.key(function (d) {
+    return d.Country;
+})
+.entries(streamsInCountry);
 
+  var svg = d3.select("#plot").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom);
 
-  x.domain(dates_new.map(function(d){return d.date;}));
-  y.domain([0, d3.max(dates_new, function(d) { return d.Streams; })]);
-console.log(x);
-  // Add the valueline path.
-  svg.append("path")
-      .data(dates_new)
-      .attr("class", "line")
-      .attr("d", valueline);
-
-console.log("oiiii");  
-
-// Add the X Axis
   svg.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
+    .attr("class", "x axis ")
+    .attr('id', "axis--x")
+    .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
+    .call(xAxis);
 
-  // Add the Y Axis
   svg.append("g")
-      .call(d3.axisLeft(y));
+    .attr("class", "y axis")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    .attr('id', "axis--y")
+    .call(yAxis);
 
+  var line = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  var dot = svg.append("g")
+    .attr("id", "scatter")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+dataNest.forEach(function (d, i) {
+
+	// Add line plot
+  line.append("g")
+  		.attr("id", "line-" + i)
+      .attr("clip-path", "url(#clip)")
+        .append("path")
+        .datum(d.values)
+        .attr("class", "pointlines")
+        .attr("d", plotLine)
+        .style("fill", "none")
+        .style("stroke", function () {
+            return d.colour = colour(d.key);
+        });;
+    
+  dot.append("g")
+  	.attr("id", "scatter-" + i)
+  	.attr("clip-path", "url(#clip)")
+  	.selectAll(".dot")
+    .data(d.values)
+      .enter().append("circle")
+      .attr("class", "dot")
+      .attr("r", 5)
+      .attr("cx", function(d) {
+        return xScale(d.Date);
+      })
+      .attr("cy", function(d) {
+        return yScale(d.Streams);
+      })
+      .attr("stroke", "white")
+      .attr("stroke-width", "2px")
+      .style("fill", function() {
+        return d.colour = colour(d.key);
+      });
+}); // End data nest loop
+
+/****************** Update Below **************************/
+d3.select("#update").on('click', update);
+var g = 0;
+function newRandom(samples) {
+  var data = [];
+
+  for (i = 0; i < samples; i++) {
+    data.push({
+      x: g+g*Math.random(),
+      y: Math.sin(Math.random()),
+      name: "group-3"
+    });
+    
+    g++;
+  }
+
+  data.sort(function(a, b) {
+    return a.x - b.x;
+  })
+  return data;
+}
+
+function update() {
+
+  let newData = newRandom(15);
+  data = data.concat(newData);
+  
+  data.sort(function(a,b) {
+  	return a.x - b.x;
+  });
+  
+  // Nest the entries by name
+  dataNest = d3.nest()
+  .key(function (d) {
+      return d.name;
+  })
+  .entries(data);
+
+  xScale.domain(d3.extent(data, function(d) {
+    return d.x;
+  })).nice();
+  
+  yScale.domain(d3.extent(data, function(d) {
+    return d.y;
+  })).nice();
+  
+  yAxis.scale(yScale);
+  xAxis.scale(xScale);
+  
+ 	svg.transition().duration(1000).select('.y.axis').call(yAxis);
+  svg.transition().duration(1000).select('.x.axis').call(xAxis);
+
+dataNest.forEach(function (d, i) {
+	if(d3.select("#line-"+i).empty()) {
+        //add new charts
+        // Add line plot
+      line.append("g")
+          .attr("id", "line-" + i)
+          .attr("clip-path", "url(#clip)")
+            .append("path")
+            .datum(d.values)
+            .attr("class", "pointlines")
+            .attr("d", plotLine)
+            .style("fill", "none")
+            .style("stroke", function () {
+                return d.colour = colour(d.key);
+            });;
+
+      dot.append("g")
+        .attr("id", "scatter-" + i)
+        .attr("clip-path", "url(#clip)")
+        .selectAll(".dot")
+        .data(d.values)
+          .enter().append("circle")
+          .attr("class", "dot")
+          .attr("r", 5)
+          .attr("cx", function(d) {
+            return xScale(d.x);
+          })
+          .attr("cy", function(d) {
+            return yScale(d.y);
+          })
+          .attr("stroke", "white")
+          .attr("stroke-width", "2px")
+          .style("fill", function() {
+            return d.colour = colour(d.key);
+          });
+  } else {
+      line.select("#line-"+i).select("path").data([d.values])
+        .transition().duration(750)
+        .attr("d", plotLine);
+
+      //Update all circles
+      dot.select("#scatter-"+i).selectAll("circle")
+        .data(d.values)
+        .transition()
+        .duration(750)
+        .attr("cx", function(d) {
+          return xScale(d.x);
+        })
+        .attr("cy", function(d) {
+          return yScale(d.y);
+        })
+        .attr("stroke", "white")
+        .attr("stroke-width", "2px")
+        .style("fill", function() {
+        	return d.colour = colour(d.key);
+         });
+
+      //Enter new circles
+      dot.select("#scatter-"+i).selectAll("circle")
+        .data(d.values)
+        .enter()
+        .append("circle")
+          .attr("cx", function(d) {
+            return xScale(d.x);
+          })
+          .attr("cy", function(d) {
+            return yScale(d.y);
+          })
+          .attr("r", 5)
+          .attr("stroke", "white")
+          .attr("stroke-width", "2px")
+          .style("fill", function() {
+          	return d.colour = colour(d.key);
+          });
+
+      // Remove old
+      dot.select("#scatter-"+i).selectAll("circle")
+        .data(d.values)
+        .exit()
+        .remove()
+    }
 });
+
+}
