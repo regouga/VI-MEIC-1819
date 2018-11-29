@@ -1,0 +1,227 @@
+{
+    "count": 10,
+    "children": [
+      {
+        "count": 10,
+        "children": [
+          {
+            "count": 2,
+            "children": [
+              {
+                "count": 1,
+                "children": [
+                  {
+                    "Indicators": "0 0 0 0 0 0",
+                    "Date": "01/01/2017",
+                    "Track Name": "Starboy                                                                     ",
+                    "Country": "pt",
+                    "Streams": 15397,
+                    "Artist": "The Weeknd       "
+                  }
+                ],
+                "name": "Starboy                                                                     ",
+                "Stream_Count": 15397
+              },
+              {
+                "count": 1,
+                "children": [
+                  {
+                    "Indicators": "0 0 0 0 0 0",
+                    "Date": "01/01/2017",
+                    "Track Name": "I Feel It Coming                                                            ",
+                    "Country": "pt",
+                    "Streams": 9060,
+                    "Artist": "The Weeknd       "
+                  }
+                ],
+                "name": "I Feel It Coming                                                            ",
+                "Stream_Count": 9060
+              }
+            ],
+            "name": "The Weeknd       ",
+            "Stream_Count": 24457
+          },
+          {
+            "count": 1,
+            "children": [
+              {
+                "count": 1,
+                "children": [
+                  {
+                    "Indicators": "0 0 0 0 0 0",
+                    "Date": "01/01/2017",
+                    "Track Name": "Let Me Love You                                                             ",
+                    "Country": "pt",
+                    "Streams": 10469,
+                    "Artist": "DJ Snake         "
+                  }
+                ],
+                "name": "Let Me Love You                                                             ",
+                "Stream_Count": 10469
+              }
+            ],
+            "name": "DJ Snake         ",
+            "Stream_Count": 10469
+          },
+          {
+            "count": 1,
+            "children": [
+              {
+                "count": 1,
+                "children": [
+                  {
+                    "Indicators": "0 0 0 0 0 0",
+                    "Date": "01/01/2017",
+                    "Track Name": "24K Magic                                                                   ",
+                    "Country": "pt",
+                    "Streams": 10196,
+                    "Artist": "Bruno Mars       "
+                  }
+                ],
+                "name": "24K Magic                                                                   ",
+                "Stream_Count": 10196
+              }
+            ],
+            "name": "Bruno Mars       ",
+            "Stream_Count": 10196
+          },
+          {
+            "count": 1,
+            "children": [
+              {
+                "count": 1,
+                "children": [
+                  {
+                    "Indicators": "0 0 0 0 0 0",
+                    "Date": "01/01/2017",
+                    "Track Name": "One Dance                                                                   ",
+                    "Country": "pt",
+                    "Streams": 10105,
+                    "Artist": "Drake            "
+                  }
+                ],
+                "name": "One Dance                                                                   ",
+                "Stream_Count": 10105
+              }
+            ],
+            "name": "Drake            ",
+            "Stream_Count": 10105
+          },
+          {
+            "count": 1,
+            "children": [
+              {
+                "count": 1,
+                "children": [
+                  {
+                    "Indicators": "0 0 0 0 0 0",
+                    "Date": "01/01/2017",
+                    "Track Name": "Closer                                                                      ",
+                    "Country": "pt",
+                    "Streams": 10080,
+                    "Artist": "The Chainsmokers "
+                  }
+                ],
+                "name": "Closer                                                                      ",
+                "Stream_Count": 10080
+              }
+            ],
+            "name": "The Chainsmokers ",
+            "Stream_Count": 10080
+          },
+          {
+            "count": 1,
+            "children": [
+              {
+                "count": 1,
+                "children": [
+                  {
+                    "Indicators": "0 0 0 0 0 0",
+                    "Date": "01/01/2017",
+                    "Track Name": "Say You Won't Let Go                                                        ",
+                    "Country": "pt",
+                    "Streams": 9463,
+                    "Artist": "James Arthur     "
+                  }
+                ],
+                "name": "Say You Won't Let Go                                                        ",
+                "Stream_Count": 9463
+              }
+            ],
+            "name": "James Arthur     ",
+            "Stream_Count": 9463
+          },
+          {
+            "count": 1,
+            "children": [
+              {
+                "count": 1,
+                "children": [
+                  {
+                    "Indicators": "0 0 0 0 0 0",
+                    "Date": "01/01/2017",
+                    "Track Name": "Loucos                                                                      ",
+                    "Country": "pt",
+                    "Streams": 9235,
+                    "Artist": "Matias Damásio  "
+                  }
+                ],
+                "name": "Loucos                                                                      ",
+                "Stream_Count": 9235
+              }
+            ],
+            "name": "Matias Damásio  ",
+            "Stream_Count": 9235
+          },
+          {
+            "count": 1,
+            "children": [
+              {
+                "count": 1,
+                "children": [
+                  {
+                    "Indicators": "0 0 0 0 0 0",
+                    "Date": "01/01/2017",
+                    "Track Name": "Chantaje                                                                    ",
+                    "Country": "pt",
+                    "Streams": 9161,
+                    "Artist": "Shakira          "
+                  }
+                ],
+                "name": "Chantaje                                                                    ",
+                "Stream_Count": 9161
+              }
+            ],
+            "name": "Shakira          ",
+            "Stream_Count": 9161
+          },
+          {
+            "count": 1,
+            "children": [
+              {
+                "count": 1,
+                "children": [
+                  {
+                    "Indicators": "0 0 0 0 0 0",
+                    "Date": "01/01/2017",
+                    "Track Name": "Rockabye (feat. Sean Paul & Anne-Marie)                                     ",
+                    "Country": "pt",
+                    "Streams": 9135,
+                    "Artist": "Clean Bandit     "
+                  }
+                ],
+                "name": "Rockabye (feat. Sean Paul & Anne-Marie)                                     ",
+                "Stream_Count": 9135
+              }
+            ],
+            "name": "Clean Bandit     ",
+            "Stream_Count": 9135
+          }
+        ],
+        "name": "0 0 0 0 0 0",
+        "Stream_Count": 102301
+      }
+    ],
+    "name": "pt",
+    "Stream_Count": 102301
+  }
