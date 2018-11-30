@@ -840,7 +840,7 @@ Zoom.prototype.init = function() {
 											console.log(current_date);
 											
 											var div = document.getElementById('listamusicas');
-										var str1 = "<p style=\"font-size: 15px;\">Top 50 in "
+										var str1 = "<p style=\"font-size: 15px;\">Top 10 in "
 										var str2 = getCountryName(state_id);
 										var str3 = " in "	
 										var str4 = current_date;
