@@ -618,7 +618,6 @@ Zoom.prototype.init = function() {
 						geographyConfig: {
 							highlightOnHover: false,
 							popupTemplate: function(geo, csvdata1) {
-								debugger;
 								console.log(getCountryISO2(geo.id));
 								console.log(selec_dates);
 								
@@ -776,7 +775,7 @@ Zoom.prototype.init = function() {
 					datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
 						var state_id = geography.id;
 
-						
+						debugger;
 						var countries = ["IRL", "USA", "DEU", "ARG", "AUT", "AUS", "AUT", "BOL", "BRA", "BEL", "CAN", "CHL", "COL", "CRI", "DNK", "SLV", "ECU", "SVK", "ESP", "EST", "PHL", "FIN", "FRA", "GRC", "GTM", "NLD", "HND", "HUN", "IDN", "ISL", "ITA", "JPN", "LVA", "LTU", "LUX", "MYS", "MEX", "NOR", "NZL", "PAN", "PRY", "PER", "PRT", "GBR", "CZE", "DOM", "MEX", "SWE", "CHE", "TWN", "TUR", "URY", "POL", "CHN"];
 						
 						if (countries.includes(state_id)) {
@@ -798,7 +797,6 @@ Zoom.prototype.init = function() {
 										fillKey: antikey
 									}
 								};
-								datamap.updateChoropleth(new_fills);
 							}
 							
 							else if(num_selec_countries < max_countries && num_selec_countries >= 0 && !selec_countries.includes(state_id)) {
@@ -833,7 +831,6 @@ Zoom.prototype.init = function() {
 										
 										console.log("Estou aqui");
 										console.log(teste);
-										debugger;
 										for (var i = 0; i < selec_dates.length; i++) {
 
 											var current_date = selec_dates[i].toLocaleDateString("pt-PT");
@@ -917,7 +914,7 @@ Zoom.prototype.init = function() {
 							
 							
 						}
-						
+						datamap.updateChoropleth(new_fills);
 						
 					});
 					
