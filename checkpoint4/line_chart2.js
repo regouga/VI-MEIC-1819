@@ -3,7 +3,6 @@ var data;
 var streamsInCountry = [];
 var dias = []
 
-var parseTime = d3.timeParse("%d %b");
 
 var margin = {top: 20,right: 20,bottom: 30,left: 60};
 
@@ -15,22 +14,24 @@ var xScale = d3.scaleTime()
 
     
 
-d3.csv("line_chart/ar.csv", function(csvdata) {
-	data = csvdata;
-	for (var j = 0; j < selec_dates.length; j++) {
-		var current_date = selec_dates[j].toLocaleDateString("pt-PT");
+d3.csv("line_chart/pt.csv", function(csvdata) {
+    data = csvdata;
+    for (var j = 0; j < selec_dates.length; j++) {
+        var current_date = selec_dates[j].toLocaleDateString("pt-PT");
         dias.push(current_date);
-		data.forEach(function(d) {
-			if (current_date == d.Date) {
-				streamsInCountry.push(d);
-			}
-		});
-	}
+        data.forEach(function(d) {
+            if (current_date == d.Date) {
+                streamsInCountry.push(d);
+            }
+        });
+    }
 
-    /*********************** Plot Below *********************/
+    
     
 
-    var yScale = d3.scaleLinear()
+ console.log(data);
+/*********************** Plot Below *********************/
+var yScale = d3.scaleLinear()
         .range([height, 0])
         .domain(d3.extent(streamsInCountry, function(d) {
             return d.Streams;
@@ -38,26 +39,32 @@ d3.csv("line_chart/ar.csv", function(csvdata) {
     // Set colour Scale
     let colour = d3.scaleOrdinal(d3.schemeCategory20);
 
-    var xAxis = d3.axisBottom(xScale)
+    var xAxis = d3.axisBottom()
       .scale(xScale)
       .ticks(selec_dates.length)
-      ;//.tickFormat(d3.timeFormat("%d %b"));
+      .tickFormat(d3.timeFormat("%d %b"));
     var yAxis = d3.axisLeft().scale(yScale);
+
 
     var plotLine = d3.line()
     .curve(d3.curveMonotoneX)
     .x(function(d) {
-        return xScale(d.Date);
+        for (var j = 0; j < selec_dates.length; j++) {
+            if (selec_dates[j].toLocaleDateString("pt-PT") == d.Date) {
+                break;
+                }
+            }
+        return (xScale(j) + (-xScale(0))) +j * width/(selec_dates.length-1);
     })
     .y(function(d) {
         return yScale(d.Streams);
     });
     // Nest the entries by name
     var dataNest = d3.nest()
-    .key(function (d) {
-        return d.Country;
-    })
-    .entries(streamsInCountry);
+        .key(function (d) {
+            return d.Country;
+        })
+        .entries(streamsInCountry);
 
     var svg = d3.select("#plot").append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -75,59 +82,58 @@ d3.csv("line_chart/ar.csv", function(csvdata) {
         .attr('id', "axis--y")
         .call(yAxis);
 
-      var line = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        var line = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-      var dot = svg.append("g")
-        .attr("id", "scatter")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-      console.log("dataNest");
-      console.log(dataNest);console.log("dataNest");
-      dataNest.forEach(function (d, i) {
-    // Add line plot
-    line.append("g")
-        .attr("id", "line-" + i)
-        .attr("clip-path", "url(#clip)")
-          .append("path")
-          .datum(d.values)
-          .attr("class", "pointlines")
-          .attr("d", plotLine)
-          .style("fill", "none")
-          .style("stroke", function () {
-              return d.colour = colour(d.key);
-          });
+        var dot = svg.append("g")
+            .attr("id", "scatter")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        console.log("dataNest");
+        console.log(dataNest);console.log("dataNest");
+        dataNest.forEach(function (d, i) {
+        // Add line plot
+            line.append("g")
+                .attr("id", "line-" + i)
+                .attr("clip-path", "url(#clip)")
+                .append("path")
+                .datum(d.values)
+                .attr("class", "pointlines")
+                .attr("d", plotLine)
+                .style("fill", "none")
+                .style("stroke", function () {
+                    console.log(d);
+                    return d.colour = colour(d.key);
+                });
       
-    dot.append("g")
-      .attr("id", "scatter-" + i)
-      .attr("clip-path", "url(#clip)")
-      .selectAll(".dot")
-      .data(d.values)
-        .enter().append("circle")
-        .attr("class", "dot")
-        .attr("r", 5)
-        .attr("cx", function(d) {
-          console.log("cx cx cx");
-          console.log(d.Date);
-          var i = 0;
-          for (var j = 0; j < selec_dates.length; j++) {
-            var current_date = selec_dates[j].toLocaleDateString("pt-PT");
-            if (current_date == d.Date) {
-                i = j;
-            }
-          }
-          
-          return (xScale(i) + (-xScale(0))) +i * width/(selec_dates.length-1);
-        })
-        .attr("cy", function(d) {
-          return yScale(d.Streams);
-        })
-        .attr("stroke", "green")
-        .attr("stroke-width", "2px")
-        .style("fill", function() {
-          return d.colour = colour(d.key);
-        });
-  }); // End data nest loop
+            dot.append("g")
+              .attr("id", "scatter-" + i)
+              .attr("clip-path", "url(#clip)")
+              .selectAll(".dot")
+              .data(d.values)
+                .enter().append("circle")
+                .attr("class", "dot")
+                .attr("r", 5)
+                .attr("cx", function(d) {
+                  for (var j = 0; j < selec_dates.length; j++) {
+                    if (selec_dates[j].toLocaleDateString("pt-PT") == d.Date) {
+                        break;
+                    }
+                  }
+                  return (xScale(j) + (-xScale(0))) +j * width/(selec_dates.length-1);
+                })
+                .attr("cy", function(d) {
+                  return yScale(d.Streams);
+                })
+                .attr("stroke", "green")
+                .attr("stroke-width", "2px")
+                .style("fill", function() {
+                  return d.colour = colour(d.key);
+                });
+        }); // End data nest loop
   console.log("end");
+   
 });
+
+
 
 
 /****************** Update Below **************************/
