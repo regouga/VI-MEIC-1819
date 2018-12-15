@@ -20,7 +20,7 @@
 	
 	<script type='text/javascript' > 
 		var num_selec_countries = 0;
-		var selec_countries = ["pt"];
+		var selec_countries = ["pt", "ar"];
 		var max_countries = 6;
 		var start_date = null;
 		var end_date = null;
@@ -154,7 +154,7 @@
 						
 						selec_dates = getDateArray(sd, ed);
 							console.log(selec_dates);
-						
+							debugger;
 							if (selec_countries.length > 0)
 								for (var k=0; k<selec_countries.length; k++) {
 									updateSongList(selec_countries[k])

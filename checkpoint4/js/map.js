@@ -238,24 +238,24 @@ function getCountryName(countryCode) {
 
 
 function updateSongList(state_id) {
+	
+	console.log("AMOR DE VERDADE");
 	var teste = [];
-									var str67 = "map/"
-									var str68 = getCountryISO2(state_id);
-									var str69 = ".csv"
-									var str70 = str67.concat(str68, str69)
+	var str67 = "map/"
+	var str68 = getCountryISO2(state_id);
+	var str69 = ".csv"
+	var str70 = str67.concat(str68, str69)
 
-									d3.dsv(",", str70, function(csv) {
-									  return {
-										Country: csv.Country,
-										Date: csv.Date,
-										TrackName: csv.TrackName,
-										Artist: csv.Artist,
-										Position: csv.Position  
+	d3.dsv(",", str70, function(csv) {
+		return {
+			Country: csv.Country,
+			Date: csv.Date,
+			TrackName: csv.TrackName,
+			Artist: csv.Artist,
+			Position: csv.Position  
 										  
-									  };
-									}).then(function(csv) {
-										
-										
+		};
+		}).then(function(csv) {
 										
 										console.log("Estou aqui");
 										console.log(teste);
@@ -513,9 +513,6 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 						geographyConfig: {
 							highlightOnHover: false,
 							popupTemplate: function(geo, csvdata1) {
-								console.log(getCountryISO2(geo.id));
-								console.log(selec_dates);
-								
 								var lol;
 								
 								
@@ -523,7 +520,6 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 								cenas.forEach(function(d) {
 									if (d.id == getCountryISO2(geo.id) && d.Date == current_date) {
 										var indicators = d.Indicators;
-										console.log(indicators);
 										if (indicators == "0 0 0 0 0 0") {
 											lol = ['<div class="hoverinfo"><strong>', geo.properties.name,'<br> <img src="weather_icons/sun.png" style="width: 20px; height: 20px;"> <img src="weather_icons/fog.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/rain.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/snow.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/hail.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/thunder.png" style="width: 20px; height: 20px; opacity: 0.2;"> <img src="weather_icons/tornado.png" style="width: 20px; height: 20px; opacity: 0.2;">',
 										'</strong></div>'].join('');
@@ -670,11 +666,12 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 					datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
 						var state_id = geography.id;
 
-						debugger;
 						var countries = ["IRL", "USA", "DEU", "ARG", "AUT", "AUS", "AUT", "BOL", "BRA", "BEL", "CAN", "CHL", "COL", "CRI", "DNK", "SLV", "ECU", "SVK", "ESP", "EST", "PHL", "FIN", "FRA", "GRC", "GTM", "NLD", "HND", "HUN", "IDN", "ISL", "ITA", "JPN", "LVA", "LTU", "LUX", "MYS", "MEX", "NOR", "NZL", "PAN", "PRY", "PER", "PRT", "GBR", "CZE", "DOM", "MEX", "SWE", "CHE", "TWN", "TUR", "URY", "POL", "CHN"];
 						
 						if (countries.includes(state_id)) {
 							if (selec_countries.includes(state_id)){
+								
+								
 								console.log(state_id);
 								num_selec_countries--;
 								document.getElementById(state_id).outerHTML = "";
@@ -694,6 +691,10 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 										fillKey: antikey
 									}
 								};
+								if (selec_countries.length > 0)
+								for (var k=0; k<selec_countries.length; k++) {
+									updateSongList(selec_countries[k])
+								}
 							}
 							
 							else if(num_selec_countries < max_countries && num_selec_countries >= 0 && !selec_countries.includes(state_id)) {
