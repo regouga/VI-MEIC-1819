@@ -236,205 +236,100 @@ function getCountryName(countryCode) {
 }
 
 
+
+function updateSongList(state_id) {
+	var teste = [];
+									var str67 = "map/"
+									var str68 = getCountryISO2(state_id);
+									var str69 = ".csv"
+									var str70 = str67.concat(str68, str69)
+
+									d3.dsv(",", str70, function(csv) {
+									  return {
+										Country: csv.Country,
+										Date: csv.Date,
+										TrackName: csv.TrackName,
+										Artist: csv.Artist,
+										Position: csv.Position  
+										  
+									  };
+									}).then(function(csv) {
+										
+										
+										
+										console.log("Estou aqui");
+										console.log(teste);
+										for (var i = 0; i < selec_dates.length; i++) {
+
+											var current_date = selec_dates[i].toLocaleDateString("pt-PT");
+											console.log(current_date);
+											
+											var div = document.getElementById('listamusicas');
+										var str1 = "<p style=\"font-size: 15px;\">Top 10 in "
+										var str2 = getCountryName(state_id);
+										var str3 = " in "	
+										var str4 = current_date;
+										var res = str1.concat(str2, str3, str4);
+										div.innerHTML += res;
+											
+											csv.forEach(function(d) {
+											if (d.Date == current_date && d.Country == getCountryISO2(state_id)) teste.push(d);
+										});
+
+
+										function tabulate(data, columns) {
+											var table = d3.select('#listamusicas').append('table')
+											var thead = table.append('thead')
+											var	tbody = table.append('tbody');
+
+											// append the header row
+											thead.append('tr')
+											  .selectAll('th')
+											  .data(columns).enter()
+											  .append('th')
+												.text(function (column) { 
+												if (column == "Position") return "#"
+												else return column; });
+
+											// create a row for each object in the data
+											var rows = tbody.selectAll('tr')
+											  .data(data)
+											  .enter()
+											  .append('tr');
+
+											// create a cell in each row for each column
+											var cells = rows.selectAll('td')
+											  .data(function (row) {
+												return columns.map(function (column) {
+												  return {column: column, value: row[column]};
+												});
+											  })
+											  .enter()
+											  .append('td')
+												.text(function (d) { return d.value; });
+
+										  return table;
+										}
+
+										// render the tables
+											
+										tabulate(teste, ['Position', 'TrackName', 'Artist']); // 2 column table
+										div.innerHTML += "<hr style=\"border: 1px solid black;\" />"
+										teste = [];
+											
+										}
+										
+																				
+
+										
+									});
+}
+
+
 var cenas;
 d3.csv("map/weather_by_day.csv", function(csvdata) {
 	cenas = csvdata;
 });
-
-
-
-//basic map config with custom fills, mercator projection
-function Zoom(args) {
-	$.extend(this, {
-		$buttons:   $(".zoom-button"),
-		$info:      $("#zoom-info"),
-		scale:      { max: 50, currentShift: 0 },
-		$container: args.$container,
-		datamap:    args.datamap
-	});
-
-	this.init();
-}
-
-Zoom.prototype.init = function() {
-	var paths = this.datamap.svg.selectAll("path"),
-	subunits = this.datamap.svg.selectAll(".datamaps-subunit");
-
-				// preserve stroke thickness
-				 // paths.style("vector-effect", "non-scaling-stroke");
-
-				// disable click on drag end
-				subunits.call(
-					d3.behavior.drag().on("dragend", function() {
-						d3.event.sourceEvent.stopPropagation();
-					})
-					);
-
-				this.scale.set = this._getScalesArray();
-				this.d3Zoom = d3.behavior.zoom().scaleExtent([ 1, this.scale.max ]);
-
-				this._displayPercentage(1);
-				this.listen();
-			};
-
-			Zoom.prototype.listen = function() {
-				this.$buttons.off("click").on("click", this._handleClick.bind(this));
-
-				this.datamap.svg
-				.call(this.d3Zoom.on("zoom", this._handleScroll.bind(this)))
-				  .on("dblclick.zoom", null); // disable zoom on double-click
-				};
-
-				Zoom.prototype.reset = function() {
-					this._shift("reset");
-				};
-
-				Zoom.prototype._handleScroll = function() {
-					var translate = d3.event.translate,
-					scale = d3.event.scale,
-					limited = this._bound(translate, scale);
-
-					this.scrolled = true;
-
-					this._update(limited.translate, limited.scale);
-				};
-
-				Zoom.prototype._handleClick = function(event) {
-					var direction = $(event.target).data("zoom");
-
-					this._shift(direction);
-				};
-
-				Zoom.prototype._shift = function(direction) {
-					var center = [ this.$container.width() / 2, this.$container.height() / 2 ],
-					translate = this.d3Zoom.translate(), translate0 = [], l = [],
-					view = {
-						x: translate[0],
-						y: translate[1],
-						k: this.d3Zoom.scale()
-					}, bounded;
-
-					translate0 = [
-					(center[0] - view.x) / view.k,
-					(center[1] - view.y) / view.k
-					];
-
-					if (direction == "reset") {
-						view.k = 1;
-						this.scrolled = true;
-					} else {
-						view.k = this._getNextScale(direction);
-					}
-
-					l = [ translate0[0] * view.k + view.x, translate0[1] * view.k + view.y ];
-
-					view.x += center[0] - l[0];
-					view.y += center[1] - l[1];
-
-					bounded = this._bound([ view.x, view.y ], view.k);
-
-					this._animate(bounded.translate, bounded.scale);
-				};
-
-				Zoom.prototype._bound = function(translate, scale) {
-					var width = this.$container.width(),
-					height = this.$container.height();
-
-					translate[0] = Math.min(
-						(width / height)  * (scale - 1),
-						Math.max( width * (1 - scale), translate[0] )
-						);
-
-					translate[1] = Math.min(0, Math.max(height * (1 - scale), translate[1]));
-
-					return { translate: translate, scale: scale };
-				};
-
-				Zoom.prototype._update = function(translate, scale) {
-					this.d3Zoom
-					.translate(translate)
-					.scale(scale);
-
-					this.datamap.svg.selectAll("g")
-					.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
-
-					this._displayPercentage(scale);
-				};
-
-				Zoom.prototype._animate = function(translate, scale) {
-					var _this = this,
-					d3Zoom = this.d3Zoom;
-
-					d3.transition().duration(350).tween("zoom", function() {
-						var iTranslate = d3.interpolate(d3Zoom.translate(), translate),
-						iScale = d3.interpolate(d3Zoom.scale(), scale);
-
-						return function(t) {
-							_this._update(iTranslate(t), iScale(t));
-						};
-					});
-				};
-
-				Zoom.prototype._displayPercentage = function(scale) {
-					var value;
-
-					value = Math.round(Math.log(scale) / Math.log(this.scale.max) * 100);
-					this.$info.text(value + "%");
-				};
-
-				Zoom.prototype._getScalesArray = function() {
-					var array = [],
-					scaleMaxLog = Math.log(this.scale.max);
-
-					for (var i = 0; i <= 10; i++) {
-						array.push(Math.pow(Math.E, 0.1 * i * scaleMaxLog));
-					}
-
-					return array;
-				};
-
-				Zoom.prototype._getNextScale = function(direction) {
-					var scaleSet = this.scale.set,
-					currentScale = this.d3Zoom.scale(),
-					lastShift = scaleSet.length - 1,
-					shift, temp = [];
-
-					if (this.scrolled) {
-
-						for (shift = 0; shift <= lastShift; shift++) {
-							temp.push(Math.abs(scaleSet[shift] - currentScale));
-						}
-
-						shift = temp.indexOf(Math.min.apply(null, temp));
-
-						if (currentScale >= scaleSet[shift] && shift < lastShift) {
-							shift++;
-						}
-
-						if (direction == "out" && shift > 0) {
-							shift--;
-						}
-
-						this.scrolled = false;
-
-					} else {
-
-						shift = this.scale.currentShift;
-
-						if (direction == "out") {
-							shift > 0 && shift--;
-						} else {
-							shift < lastShift && shift++;
-						}
-					}
-
-					this.scale.currentShift = shift;
-
-					return scaleSet[shift];
-				};
-
-
-
 
 
 				function Datamap() {
@@ -788,6 +683,8 @@ Zoom.prototype.init = function() {
 								  return value != state_id;
 								});
 								console.log(selec_countries);
+								var ul = document.getElementById("listamusicas");
+								ul.innerHTML = "";
 								var fillkey_obj = datamap.options.data[state_id] || {fillKey: 'LOW'};
 								var fillkey = fillkey_obj.fillKey;;
 								var fillkeys = Object.keys(fills);
@@ -886,7 +783,7 @@ Zoom.prototype.init = function() {
 										// render the tables
 											
 										tabulate(teste, ['Position', 'TrackName', 'Artist']); // 2 column table
-										div.innerHTML += "<br><br><br>";
+										div.innerHTML += "<hr style=\"border: 1px solid black;\" />"
 										teste = [];
 											
 										}

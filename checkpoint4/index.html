@@ -20,7 +20,7 @@
 	
 	<script type='text/javascript' > 
 		var num_selec_countries = 0;
-		var selec_countries = ["pt", "ar", "es"];
+		var selec_countries = ["pt"];
 		var max_countries = 6;
 		var start_date = null;
 		var end_date = null;
@@ -55,7 +55,7 @@
 		<div class="col-md-6">
 
 			<div class="row-md-6">
-				<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+				
 
 
 				<div id="container" style="position: relative; width: 650px; height: 600px;">
@@ -84,10 +84,13 @@
 											
 					<div class="container">
 
-										<button class="zoom-button" data-zoom="reset">0</button>
+				<button class="zoom-button" data-zoom="reset">0</button>
 				<button class="zoom-button" data-zoom="out">-</button>
 				<button class="zoom-button" data-zoom="in">+</button>
 				<div id="zoom-info"></div>
+				<script src="js/d3.min.v3.js"></script>
+				<script src="js/map_zoom.js"></script>
+				<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
 				<script src="js/map.js"></script>
 
 					</div>
@@ -116,7 +119,6 @@
 						
 						$('#sandbox-container .input-daterange').datepicker().on('changeDate', function (ev) {
 							
-							debugger;
 							function toDate(dateStr) {
 							  const [day, month, year] = dateStr.split("/")
 							  return new Date(year, month - 1, day)
@@ -153,6 +155,10 @@
 						selec_dates = getDateArray(sd, ed);
 							console.log(selec_dates);
 						
+							if (selec_countries.length > 0)
+								for (var k=0; k<selec_countries.length; k++) {
+									updateSongList(selec_countries[k])
+								}
 							
 						});
 
@@ -190,13 +196,18 @@
 					<img src="assets/Imagem2.png" style="margin: 35px;">
 			</div>
 			<div class="row-md-6">
+				<div class="col-md-6">
+					<div id="putaquepariu"></div>
+					<script src="http://d3js.org/d3.v3.min.js"></script>
+  					<script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js"></script>
+					<script src="js/wordcloud.js"></script>
+					
+				</div>
 				<div class="col-md-6", id='sunburst', align="center">
 					<script src="//d3js.org/d3.v5.min.js"></script>
 					<script src="//unpkg.com/sunburst-chart"></script>
 				</div>
-				<div class="col-md-6">
-					<img src="assets/Imagem4.png" style="width: 80%; height: 80%; margin: 25px;">
-				</div>
+				
 			</div>
 
 		</div>
@@ -211,8 +222,8 @@
 		    .label('name')
 		    .size('Stream_Count')
        // .minSliceAngle(20)
-       .width(350)
-       .height(350)
+       .width(325)
+       .height(325)
 		    .color((d, parent) => color(parent ? parent.data.name : null))
 		    .tooltipContent((d, node) => `Streams: <i>${node.value}</i>`)
 		    (document.getElementById('sunburst'));
