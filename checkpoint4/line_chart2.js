@@ -6,7 +6,7 @@ var dias = []
 
 var margin = {top: 20,right: 20,bottom: 30,left: 60};
 
-var width = 400 - margin.left - margin.right,height = 400 - margin.top - margin.bottom;
+var width = 300 - margin.left - margin.right,height = 300 - margin.top - margin.bottom;
 
 var xScale = d3.scaleTime()
     .range([0, width])

@@ -20,16 +20,12 @@
 	
 	<script type='text/javascript' > 
 		var num_selec_countries = 0;
-		var selec_countries = ["pt", "ar", "es"];
+		var selec_countries = ["pt", "ar"];
 		var max_countries = 6;
 		var start_date = null;
 		var end_date = null;
-		var selec_dates = [new Date(2017, 1, 1), new Date(2017, 1, 2)
-		, new Date(2017, 1, 3), new Date(2017, 1, 4)
-		, new Date(2017, 1, 5), new Date(2017, 1, 6)
-		, new Date(2017, 1, 7), new Date(2017, 1, 8)
-		, new Date(2017, 1, 9), new Date(2017, 1, 10)
-		, new Date(2017, 1, 11), new Date(2017, 1, 12)];
+		var selec_dates = [new Date(2017, 0, 1)];
+		console.log(selec_dates);
 	</script>
 
 	<link rel="shortcut icon" href="/icon/favicon.ico" type="image/x-icon" />
@@ -59,7 +55,7 @@
 		<div class="col-md-6">
 
 			<div class="row-md-6">
-
+				
 
 
 				<div id="container" style="position: relative; width: 650px; height: 600px;">
@@ -83,12 +79,18 @@
 			</div>
 
 			<div class="row-md-6">
+
 				<div class="col-md-6">
+											
 					<div class="container">
-										<button class="zoom-button" data-zoom="reset">0</button>
+
+				<button class="zoom-button" data-zoom="reset">0</button>
 				<button class="zoom-button" data-zoom="out">-</button>
 				<button class="zoom-button" data-zoom="in">+</button>
 				<div id="zoom-info"></div>
+				<script src="js/d3.min.v3.js"></script>
+				<script src="js/map_zoom.js"></script>
+				<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
 				<script src="js/map.js"></script>
 
 					</div>
@@ -101,22 +103,30 @@
 
 					<div id="sandbox-container">
 						<div class="input-daterange input-group" id="datepicker">
-							<input type="text" class="input-sm form-control" value="01/02/2017" name="start" id="start"/>
+							<input type="text" class="input-sm form-control" value="01/01/2017" name="start" id="start"/>
 							<span class="input-group-addon">to</span>
-							<input type="text" class="input-sm form-control" value="01/02/2017" name="end" id="end"/>
+							<input type="text" class="input-sm form-control" value="01/01/2017" name="end" id="end"/>
 						</div>
 					</div>
 
 					<script>
 						$('#sandbox-container .input-daterange').datepicker({
-							format: "mm/dd/yyyy",
+							format: "dd/mm/yyyy",
 							startDate: "01/01/2017",
-							endDate: "12/31/2017",
+							endDate: "31/12/2017",
 							maxViewMode: 1
 						});
 						
 						$('#sandbox-container .input-daterange').datepicker().on('changeDate', function (ev) {
-						  var sd = new Date($('#start').val());
+							
+							function toDate(dateStr) {
+							  const [day, month, year] = dateStr.split("/")
+							  return new Date(year, month - 1, day)
+							}
+							
+							var sd = toDate($('#start').val());
+							
+							
 							
 							var diva = document.getElementById('listamusicas');
 							diva.innerHTML = "";
@@ -125,10 +135,11 @@
 						start_date=sd.toString();
 							console.log(start_date);
 						
-						var ed = new Date($('#end').val());
+						var ed = toDate($('#end').val());
 						end_date=ed.toString();
 							console.log(end_date);
 						
+							console.log("Start date: " + sd, " End date: " + ed);
 						
 
 						var getDateArray = function(start, end) {
@@ -143,7 +154,11 @@
 						
 						selec_dates = getDateArray(sd, ed);
 							console.log(selec_dates);
-						
+							debugger;
+							if (selec_countries.length > 0)
+								for (var k=0; k<selec_countries.length; k++) {
+									updateSongList(selec_countries[k])
+								}
 							
 						});
 
@@ -181,13 +196,18 @@
 					<img src="assets/Imagem2.png" style="margin: 35px;">
 			</div>
 			<div class="row-md-6">
+				<div class="col-md-6">
+					<div id="putaquepariu"></div>
+					<script src="http://d3js.org/d3.v3.min.js"></script>
+  					<script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js"></script>
+					<script src="js/wordcloud.js"></script>
+					
+				</div>
 				<div class="col-md-6", id='sunburst', align="center">
 					<script src="//d3js.org/d3.v5.min.js"></script>
 					<script src="//unpkg.com/sunburst-chart"></script>
 				</div>
-				<div class="col-md-6">
-					<img src="assets/Imagem4.png" style="width: 80%; height: 80%; margin: 25px;">
-				</div>
+				
 			</div>
 
 		</div>
@@ -202,8 +222,8 @@
 		    .label('name')
 		    .size('Stream_Count')
        // .minSliceAngle(20)
-       .width(350)
-       .height(350)
+       .width(325)
+       .height(325)
 		    .color((d, parent) => color(parent ? parent.data.name : null))
 		    .tooltipContent((d, node) => `Streams: <i>${node.value}</i>`)
 		    (document.getElementById('sunburst'));
