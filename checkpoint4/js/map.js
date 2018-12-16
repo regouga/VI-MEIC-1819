@@ -695,6 +695,8 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 								for (var k=0; k<selec_countries.length; k++) {
 									updateSongList(selec_countries[k])
 								}
+								
+								updateViss();
 							}
 							
 							else if(num_selec_countries < max_countries && num_selec_countries >= 0 && !selec_countries.includes(state_id)) {
@@ -726,7 +728,6 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 									}).then(function(csv) {
 										
 										
-										
 										console.log("Estou aqui");
 										console.log(teste);
 										for (var i = 0; i < selec_dates.length; i++) {
@@ -741,11 +742,34 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 										var str4 = current_date;
 										var res = str1.concat(str2, str3, str4);
 										div.innerHTML += res;
+											if (artistsWordCloud.length > 0) {
+												document.getElementById("putaquepariu").innerHTML = "";
+											}
+												
 											
+											strArtists = "";
 											csv.forEach(function(d) {
-											if (d.Date == current_date && d.Country == getCountryISO2(state_id)) teste.push(d);
+											if (d.Date == current_date && d.Country == getCountryISO2(state_id)){
+												
+												
+												var string = d.Artist
+												var newString = string.replace(/\s+/g,' ').trim();
+												strArtists += newString;
+												strArtists += ", ";
+												
+												console.log(strArtists);
+												
+												
+												teste.push(d);
+											} 
 										});
-
+											
+											artistsWordCloud.unshift(strArtists);
+											console.log("LOG");
+											console.log(artistsWordCloud);
+											updateViss();
+											
+											
 
 										function tabulate(data, columns) {
 											var table = d3.select('#listamusicas').append('table')
@@ -807,7 +831,7 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 										}
 									};
 									datamap.updateChoropleth(new_fills);
-								
+									
 							}
 							
 							
@@ -815,7 +839,6 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 						datamap.updateChoropleth(new_fills);
 						
 					});
-					
 					
 
 
