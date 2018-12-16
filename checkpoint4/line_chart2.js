@@ -26,10 +26,6 @@ d3.csv("line_chart/pt.csv", function(csvdata) {
         });
     }
 
-    
-    
-
- console.log(data);
 /*********************** Plot Below *********************/
 var yScale = d3.scaleLinear()
         .range([height, 0])
@@ -137,35 +133,27 @@ var yScale = d3.scaleLinear()
 
 
 /****************** Update Below **************************/
-d3.select("#update").on('click', update);
+d3.select("#sandbox-container").on('changeDate', update);
 var g = 0;
-function newRandom(samples) {
-  var data = [];
 
-  for (i = 0; i < samples; i++) {
-    data.push({
-      x: g+g*Math.random(),
-      y: Math.sin(Math.random()),
-      name: "group-3"
-    });
-    
-    g++;
-  }
 
-  data.sort(function(a, b) {
-    return a.x - b.x;
-  })
-  return data;
-}
 
 function update() {
-
-  let newData = newRandom(15);
-  data = data.concat(newData);
+  console.log("UPDATE");
   
-  data.sort(function(a,b) {
-  	return a.x - b.x;
-  });
+  d3.csv("line_chart/pt.csv", function(csvdata) {
+
+  console.log("CSV UPDATE");
+    data = csvdata;
+    for (var j = 0; j < selec_dates.length; j++) {
+        var current_date = selec_dates[j].toLocaleDateString("pt-PT");
+        dias.push(current_date);
+        data.forEach(function(d) {
+            if (current_date == d.Date) {
+                streamsInCountry.push(d);
+            }
+        });
+    }
   
   // Nest the entries by name
   dataNest = d3.nest()
