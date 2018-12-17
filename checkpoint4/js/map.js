@@ -271,10 +271,18 @@ function updateSongList(state_id) {
 										var str4 = current_date;
 										var res = str1.concat(str2, str3, str4);
 										div.innerHTML += res;
-											
+											var strArtists = "";
 											csv.forEach(function(d) {
-											if (d.Date == current_date && d.Country == getCountryISO2(state_id)) teste.push(d);
+											if (d.Date == current_date && d.Country == getCountryISO2(state_id)) {
+												var string = d.Artist
+												var newString = string.replace(/\s+/g,' ').trim();
+												strArtists += newString;
+												strArtists += ", ";
+												teste.push(d);
+											} 
 										});
+											
+											artistsWordCloud.unshift(strArtists);
 
 
 										function tabulate(data, columns) {
@@ -669,6 +677,7 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 						var countries = ["IRL", "USA", "DEU", "ARG", "AUT", "AUS", "AUT", "BOL", "BRA", "BEL", "CAN", "CHL", "COL", "CRI", "DNK", "SLV", "ECU", "SVK", "ESP", "EST", "PHL", "FIN", "FRA", "GRC", "GTM", "NLD", "HND", "HUN", "IDN", "ISL", "ITA", "JPN", "LVA", "LTU", "LUX", "MYS", "MEX", "NOR", "NZL", "PAN", "PRY", "PER", "PRT", "GBR", "CZE", "DOM", "MEX", "SWE", "CHE", "TWN", "TUR", "URY", "POL", "CHN"];
 						
 						if (countries.includes(state_id)) {
+							document.getElementById("putaquepariu").innerHTML = "";
 							if (selec_countries.includes(state_id)){
 								
 								

@@ -34,7 +34,7 @@ function wordCloud(selector) {
         //Entering and existing words
         cloud
             .transition()
-                .duration(500)
+                .duration(1000)
                 .style("font-size", function(d) { return d.size + "px"; })
                 .attr("transform", function(d) {
                     return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
