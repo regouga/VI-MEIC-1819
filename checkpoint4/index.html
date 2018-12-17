@@ -21,7 +21,7 @@
 	
 	<script type='text/javascript' > 
 		var num_selec_countries = 0;
-		var selec_countries = ["pt", "ar"];
+		var selec_countries = [];
 		var max_countries = 6;
 		var start_date = null;
 		var end_date = null;
@@ -163,7 +163,9 @@
 								for (var k=0; k<selec_countries.length; k++) {
 									updateSongList(selec_countries[k])
 								}
-							
+						document.getElementById("putaquepariu").innerHTML = "";
+
+											
 						updateViss();
 						});
 
