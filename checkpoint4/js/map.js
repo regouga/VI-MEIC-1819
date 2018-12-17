@@ -695,10 +695,9 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 								for (var k=0; k<selec_countries.length; k++) {
 									updateSongList(selec_countries[k])
 								}
-								if (selec_countries.length == 0) {
-												document.getElementById("putaquepariu").innerHTML = "";
-											}
-								else updateViss();
+								artistsWordCloud.shift();
+								document.getElementById("putaquepariu").innerHTML = "";
+								if (artistsWordCloud.length != 0) updateViss();
 							}
 							
 							else if(num_selec_countries < max_countries && num_selec_countries >= 0 && !selec_countries.includes(state_id)) {
