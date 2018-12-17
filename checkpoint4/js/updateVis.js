@@ -5,6 +5,9 @@ function updateViss () {
 	//Start cycling through the demo data
 	var myWordCloud = wordCloud('#putaquepariu');
 	showNewWords(myWordCloud);
+	showNewWords(myWordCloud);
+	showNewWords(myWordCloud);
+	
 }
 
 

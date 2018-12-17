@@ -28,7 +28,7 @@ function wordCloud(selector) {
 			.style("font-weight", "bold")
             .style("fill", function(d, i) { return fill(i); })
             .attr("text-anchor", "middle")
-            .attr('font-size', 1)
+            .attr('font-size', 20)
             .text(function(d) { return d.text; });
 
         //Entering and existing words
@@ -101,7 +101,6 @@ function showNewWords(vis, i) {
     i = i || 0;
 
     vis.update(getWords(i ++ % artistsWordCloud.length))
-	setTimeout(function() { showNewWords(vis, i)}, 2000)
 	
 }
 
