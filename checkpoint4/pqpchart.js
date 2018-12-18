@@ -47,8 +47,7 @@ d3.csv("line_chart/exemplo.csv", function(csvdata) {
     var yAxis = d3.axisLeft().scale(yScale);
 
     var ticks = xScale.ticks(selec_dates.length);
-    console.log("ticks")
-    console.log(ticks)
+
     var nonDuplicateTickValues = [];
 
     var formatter = function(d){
@@ -146,6 +145,14 @@ d3.csv("line_chart/exemplo.csv", function(csvdata) {
                     return d.colour = colors_availa[i];
                 });
       
+      svg.append("text")             
+      .attr("transform",
+            "translate(" + (width/2 + 60) + " ," + 
+                           (height + margin.top + 30) + ")")
+      .style("text-anchor", "middle")
+      .text("Date");
+
+
             dot.append("g")
               .attr("id", "scatter-" + i)
               .attr("clip-path", "url(#clip)")
@@ -169,6 +176,14 @@ d3.csv("line_chart/exemplo.csv", function(csvdata) {
                 .style("fill", function() {
                   return d.colour = colors_availa[i];
                 });
+                // text label for the y axis
+  svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Value");
         }); // End data nest loop
 
    
