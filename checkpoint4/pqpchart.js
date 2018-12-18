@@ -19,6 +19,7 @@ function drawLineChart() {
 	var dias = []
 	var colors_availa=["blue", "green","red", "purple","orange", "yellow"];
 	
+	
 	var divisor = 1000;
 
 	var margin = {top: 20,right: 20,bottom: 30,left: 60};
@@ -31,7 +32,7 @@ function drawLineChart() {
 	
 
 	
-	d3.dsv(",", "line_chart/us.csv", function(csvdata) {
+	d3.dsv(",", "line_chart/all.csv", function(csvdata) {
 		return {
 			Date: csvdata.Date,
 			Country: csvdata.Country,
@@ -49,11 +50,17 @@ function drawLineChart() {
 				dias.push(current_date);
 			}
 			data.forEach(function(d) {
-				if (current_date == d.Date) {
-					streamsInCountry.push(d);
+				for (var l=0; l < selec_countries.length; l++) {
+					if (current_date == d.Date &&  d.Country == getCountryISO2(selec_countries[l])) {
+						streamsInCountry.push(d);
+					}
 				}
+				
 			});
 		}
+		
+		console.log("LOL");
+		console.log(streamsInCountry);
 
 
 
