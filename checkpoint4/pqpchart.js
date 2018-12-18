@@ -4,6 +4,8 @@ var streamsInCountry = [];
 var dias = []
 var colors_availa=["blue", "green","red", "purple","orange", "yellow"];
 
+var divisor = 1000;
+
 var margin = {top: 20,right: 20,bottom: 30,left: 60};
 
 var width = 400 - margin.left - margin.right,height = 400 - margin.top - margin.bottom;
@@ -34,7 +36,7 @@ d3.csv("line_chart/exemplo.csv", function(csvdata) {
     var yScale = d3.scaleLinear()
         .range([height, 0])
         .domain(d3.extent(streamsInCountry, function(d) {
-            return d.Streams;
+            return d.Streams/divisor;
         })).nice();
     // Set colour Scale
     let colour = d3.scaleOrdinal(d3.schemeCategory20);
@@ -95,7 +97,7 @@ d3.csv("line_chart/exemplo.csv", function(csvdata) {
         return (xScale(j) + (-xScale(0))) +j * width/(selec_dates.length-1);
     })
     .y(function(d) {
-        return yScale(d.Streams);
+        return yScale(d.Streams/divisor);
     });
     // Nest the entries by name
     var dataNest = d3.nest()
@@ -170,7 +172,7 @@ d3.csv("line_chart/exemplo.csv", function(csvdata) {
                   return (xScale(j) + (-xScale(0))) +j * width/(selec_dates.length-1);
                 })
                 .attr("cy", function(d) {
-                  return yScale(d.Streams);
+                  return yScale(d.Streams/divisor);
                 })
                 .attr("stroke-width", "2px")
                 .style("fill", function() {
@@ -235,7 +237,7 @@ function update() {
   })).nice();
   
   yScale.domain(d3.extent(data, function(d) {
-    return d.Streams;
+    return d.Streams/divisor;
   })).nice();
   
   yAxis.scale(yScale);
@@ -272,7 +274,7 @@ dataNest.forEach(function (d, i) {
             return xScale(d.Date);
           })
           .attr("cy", function(d) {
-            return yScale(d.Streams);
+            return yScale(d.Streams/divisor);
           })
           .attr("stroke", "white")
           .attr("stroke-width", "2px")
