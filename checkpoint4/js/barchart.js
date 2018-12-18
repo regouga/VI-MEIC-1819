@@ -1,24 +1,37 @@
 
-
-var teste = [];
+function updateBarChart() {
+	var countrySelected = getCountryISO2(selec_countries.slice(-1));
+	var teste = [];
 var str70 = "bar_chart/bar_chart.csv"
 
 var data;
-
-
-
-
-d3.csv(str70, function(data1){
-	console.log("PUTA DEITA-TE");
-	console.log(data1);
+var fulldata;
 	
-	data1.forEach(function(d) {
-		if (d.Country == "ar") {
+	d3.dsv(",", str70, function(data) {
+		return {
+			Streams: data.Streams,
+			Country: data.Country,
+			weather: data.weather
+										  
+		};
+	}).then(function(data) { 
+
+		
+		
+	
+	
+	debugger;
+	console.log("PUTA DEITA-TE");
+	console.log(data);
+	
+	data.forEach(function(d) {
+		if (d.Country == countrySelected) {
 			teste.push(d);
 		} 
 	});
 	
     data = teste;
+
 						//sort bars based on value
 					data = data.sort(function (a, b) {
 						return d3.ascending(a.Streams, b.Streams);
@@ -55,11 +68,10 @@ d3.csv(str70, function(data1){
 						}));
 
 				//	make y axis to show bar names
-					var yAxis = d3.svg.axis()
+					var yAxis = d3.axisLeft()
 						.scale(y)
 						//no tick marks
 						.tickSize(0)
-						.orient("left")
 
 					var gy = svg.append("g")
 						.attr("class", "y axis")
@@ -97,9 +109,8 @@ d3.csv(str70, function(data1){
 							return Math.floor(d.Streams / 100000);
 						});
 	
-	
-	
 });
+}
 
 
 

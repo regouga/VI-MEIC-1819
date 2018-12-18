@@ -8,6 +8,8 @@ function updateViss () {
 	showNewWords(myWordCloud);
 	showNewWords(myWordCloud);
 	
+	d3.select("#graphic").select("svg").remove();
+	updateBarChart();
 }
 
 
