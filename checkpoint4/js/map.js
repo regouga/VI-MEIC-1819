@@ -707,6 +707,7 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 								artistsWordCloud.shift();
 								document.getElementById("putaquepariu").innerHTML = "";
 								if (artistsWordCloud.length != 0) updateViss();
+								d3.select("#graphic").select("svg").remove();
 							}
 							
 							else if(num_selec_countries < max_countries && num_selec_countries >= 0 && !selec_countries.includes(state_id)) {
@@ -777,7 +778,7 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 											artistsWordCloud.unshift(strArtists);
 											console.log("LOG");
 											console.log(artistsWordCloud);
-											updateViss();
+											
 											
 											
 
@@ -814,6 +815,7 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 
 										  return table;
 										}
+											
 
 										// render the tables
 											
@@ -823,7 +825,7 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 											
 										}
 										
-																				
+										updateViss();									
 
 										
 									});
