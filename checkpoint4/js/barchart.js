@@ -75,12 +75,20 @@ var fulldata;
 
 					var gy = svg.append("g")
 						.attr("class", "y axis")
+						.attr('transform', 'translate(0,' + (height/15) + ')')
 						.call(yAxis)
 
 					var bars = svg.selectAll(".bar")
 						.data(data)
 						.enter()
 						.append("g")
+						
+					debugger;
+					bars.transition()
+						.duration(1000)
+						.ease(d3.easeQuad)
+						  .attr("y", function(d) { return y(d.Streams); })
+						  .attr("height", function(d) { return height - y(d.Streams); });
 
 					//append rects
 					bars.append("rect")
@@ -88,12 +96,21 @@ var fulldata;
 						.attr("y", function (d) {
 							return y(d.weather);
 						})
+						.transition()
+						.duration(500)
+						.ease(d3.easeQuad)
 						.attr("height", y.rangeBand())
 						.attr("x", 0)
 						.attr("width", function (d) {
 							return x(d.Streams);
-						});
+						})
+						.transition()
+						.duration(500)
+						.ease(d3.easeQuad);
 
+					
+		
+		
 					//add a value label to the right of each bar
 					bars.append("text")
 						.attr("class", "label")
@@ -106,8 +123,13 @@ var fulldata;
 							return x(d.Streams) + 3;
 						})
 						.text(function (d) {
-							return Math.floor(d.Streams / 100000);
+							return Math.floor(d.Streams / 1000000) + "M";
 						});
+
+
+		
+		
+		
 	
 });
 }
