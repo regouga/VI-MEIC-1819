@@ -8,6 +8,7 @@ function updateViss () {
 	showNewWords(myWordCloud);
 	showNewWords(myWordCloud);
 	
+	drawBarChart();
 }
 
 

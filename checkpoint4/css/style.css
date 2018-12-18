@@ -19,3 +19,17 @@ th.num, td.num { text-align: right; }
   stroke: steelblue;
   stroke-width: 2px;
 }
+
+
+
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+
