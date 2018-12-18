@@ -2,23 +2,24 @@
 var data;
 var streamsInCountry = [];
 var dias = []
-
+var colors_availa=["blue", "green","red", "purple","orange", "yellow"];
 
 var margin = {top: 20,right: 20,bottom: 30,left: 60};
 
-var width = 300 - margin.left - margin.right,height = 300 - margin.top - margin.bottom;
+var width = 400 - margin.left - margin.right,height = 400 - margin.top - margin.bottom;
 
 var xScale = d3.scaleTime()
     .range([0, width])
     .domain(d3.extent(selec_dates, function(d) { return d; }));
 
-    
 
-d3.csv("line_chart/pt.csv", function(csvdata) {
+d3.csv("line_chart/exemplo.csv", function(csvdata) {
     data = csvdata;
     for (var j = 0; j < selec_dates.length; j++) {
         var current_date = selec_dates[j].toLocaleDateString("pt-PT");
-        dias.push(current_date);
+        if (!dias.includes(current_date)){
+            dias.push(current_date);
+        }
         data.forEach(function(d) {
             if (current_date == d.Date) {
                 streamsInCountry.push(d);
@@ -26,8 +27,11 @@ d3.csv("line_chart/pt.csv", function(csvdata) {
         });
     }
 
+    
+    
+
 /*********************** Plot Below *********************/
-var yScale = d3.scaleLinear()
+    var yScale = d3.scaleLinear()
         .range([height, 0])
         .domain(d3.extent(streamsInCountry, function(d) {
             return d.Streams;
@@ -36,15 +40,54 @@ var yScale = d3.scaleLinear()
     let colour = d3.scaleOrdinal(d3.schemeCategory20);
 
     var xAxis = d3.axisBottom()
-      .scale(xScale)
-      .ticks(selec_dates.length)
+        .scale(xScale)
+        .ticks(selec_dates.length)
       .tickFormat(d3.timeFormat("%d %b"));
+      
     var yAxis = d3.axisLeft().scale(yScale);
 
+    var ticks = xScale.ticks(selec_dates.length);
+    console.log("ticks")
+    console.log(ticks)
+    var nonDuplicateTickValues = [];
+
+    var formatter = function(d){
+        var format = d3.timeFormat("%d %b");
+        return format(d);
+    }
+
+    var tickAlreadyExists = function(tickValIn){
+        for(var i=0;i<nonDuplicateTickValues.length;i++)
+        {
+            var t = nonDuplicateTickValues[i];
+            var formattedTickValIn = formatter(tickValIn);
+            var formattedTickVal = formatter(t);
+            if(formattedTickValIn == formattedTickVal)
+                {return true;}
+
+        }
+        return false;
+    };
+
+    var removeDuplicateTicks = function(){
+        for(var i=0;i<ticks.length;i++)
+        { 
+            var tickVal = ticks[i];
+            if(!tickAlreadyExists(tickVal))
+            {
+                nonDuplicateTickValues.push(tickVal);
+            }
+        }
+    };
+
+    
+    removeDuplicateTicks()
+    
+    xAxis.tickValues(nonDuplicateTickValues);
 
     var plotLine = d3.line()
-      .curve(d3.curveMonotoneX)
-      .x(function(d) {
+    .curve(d3.curveMonotoneX)
+    .x(function(d) {
         for (var j = 0; j < selec_dates.length; j++) {
             if (selec_dates[j].toLocaleDateString("pt-PT") == d.Date) {
                 break;
@@ -78,15 +121,18 @@ var yScale = d3.scaleLinear()
         .attr('id', "axis--y")
         .call(yAxis);
 
+        // text label for the y axis
+  
+
         var line = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         var dot = svg.append("g")
             .attr("id", "scatter")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        
 
         dataNest.forEach(function (d, i) {
         // Add line plot
+
             line.append("g")
                 .attr("id", "line-" + i)
                 .attr("clip-path", "url(#clip)")
@@ -96,8 +142,8 @@ var yScale = d3.scaleLinear()
                 .attr("d", plotLine)
                 .style("fill", "none")
                 .style("stroke", function () {
-                    console.log(d);
-                    return d.colour = colour(d.key);
+
+                    return d.colour = colors_availa[i];
                 });
       
             dot.append("g")
@@ -119,13 +165,12 @@ var yScale = d3.scaleLinear()
                 .attr("cy", function(d) {
                   return yScale(d.Streams);
                 })
-                .attr("stroke", "green")
                 .attr("stroke-width", "2px")
                 .style("fill", function() {
-                  return d.colour = colour(d.key);
+                  return d.colour = colors_availa[i];
                 });
         }); // End data nest loop
-  console.log("end");
+
    
 });
 
@@ -133,26 +178,35 @@ var yScale = d3.scaleLinear()
 
 
 /****************** Update Below **************************/
-d3.select("#sandbox-container").on('changeDate', update);
+d3.select("#update").on('click', update);
 var g = 0;
+function newRandom(samples) {
+  var data = [];
 
+  for (i = 0; i < samples; i++) {
+    data.push({
+      x: g+g*Math.random(),
+      y: Math.sin(Math.random()),
+      name: "group-3"
+    });
+    
+    g++;
+  }
 
+  data.sort(function(a, b) {
+    return a.x - b.x;
+  })
+  return data;
+}
 
 function update() {
-  console.log("UPDATE");
-  
-  d3.csv("line_chart/pt.csv", function(csvdata) {
 
-    data = csvdata;
-    for (var j = 0; j < selec_dates.length; j++) {
-        var current_date = selec_dates[j].toLocaleDateString("pt-PT");
-        dias.push(current_date);
-        data.forEach(function(d) {
-            if (current_date == d.Date) {
-                streamsInCountry.push(d);
-            }
-        });
-    }
+  let newData = newRandom(15);
+  data = data.concat(newData);
+  
+  data.sort(function(a,b) {
+  	return a.x - b.x;
+  });
   
   // Nest the entries by name
   dataNest = d3.nest()
@@ -254,9 +308,8 @@ dataNest.forEach(function (d, i) {
       dot.select("#scatter-"+i).selectAll("circle")
         .data(d.values)
         .exit()
-        .remove();
+        .remove()
     }
 });
 
-});
 }
