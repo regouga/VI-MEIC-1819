@@ -24,7 +24,7 @@ function drawLineChart() {
 
 	var margin = {top: 20,right: 20,bottom: 30,left: 60};
 
-	var width = 300 - margin.left - margin.right,height = 280 - margin.top - margin.bottom;
+	var width = 330 - margin.left - margin.right,height = 280 - margin.top - margin.bottom;
 
 	var xScale = d3.scaleTime()
 		.range([0, width])

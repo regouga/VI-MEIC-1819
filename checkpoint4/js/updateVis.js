@@ -11,7 +11,9 @@ function updateViss () {
 	d3.select("#graphic").select("svg").remove();
 	updateBarChart();
 	d3.select("#plot").select("svg").remove();
-	drawLineChart()
+	drawLineChart();
+	d3.select("body #sunburst").select("svg").remove();
+	drawSunburst();
 }
 
 
