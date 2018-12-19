@@ -156,7 +156,7 @@ function drawLineChart() {
 			.call(yAxis);
 
 			// text label for the y axis
-
+            
 
 			var line = svg.append("g")
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -183,46 +183,166 @@ function drawLineChart() {
 						return d.colour = colors_availa[i];
 					});
 
-		  svg.append("text")             
-		  .attr("transform",
-				"translate(" + (width/2 + 60) + " ," + 
-							   (height + margin.top + 30) + ")")
-		  .style("text-anchor", "middle")
-		  .text("Date");
+        		  svg.append("text")             
+        		  .attr("transform",
+        				"translate(" + (width/2 + 60) + " ," + 
+        							   (height + margin.top + 30) + ")")
+        		  .style("text-anchor", "middle")
+        		  .text("Date");
+
+// dot.append("g")
+//     .selectAll(".symbol")
+//     .data(d.values)
+//     .enter()
+//     .append("circle")
+//     .attr("class", "symbol")
+    
+//     .attr("cx", function(d, i) {
+//       for (var j = 0; j < selec_dates.length; j++) {
+//                       if (selec_dates[j].toLocaleDateString("pt-PT") == d.Date) {
+//                           break;
+//                       }
+//                     }
+//                     return (xScale(j) + (-xScale(0))) +j * width/(selec_dates.length-1);
+//     })
+//     .attr("cy", function(d, i) {
+//       return yScale(d.Streams/divisor);
+//     })
+//     .style("background", "url(weather_icons/sun.png)");;
+				// dot.append("g")
+				//   .selectAll("image")
+				//   .data(d.values)
+				// 	.enter().append("circle")
+				// 	.attr("class", "symbol")
+
+				// 	.attr("r", 2)
+				// 	.attr("cx", function(d) {
+				// 	  for (var j = 0; j < selec_dates.length; j++) {
+				// 		if (selec_dates[j].toLocaleDateString("pt-PT") == d.Date) {
+				// 			break;
+				// 		}
+				// 	  }
+				// 	  return (xScale(j) + (-xScale(0))) +j * width/(selec_dates.length-1);
+				// 	})
+				// 	.attr("cy", function(d) {
+				// 	  return yScale(d.Streams/divisor);
+				// 	})
+				// 	.attr("stroke-width", "2px")
+				// 	.style("fill", function() {
+				// 	  return d.colour = colors_availa[i];
+				// 	});
+    //                 .style("xlink:href", "weather_icons/sun.png");
+function translate(textToTranslate){
+  if (textToTranslate == '0 0 0 0 0 0') {
+    return 'weather_icons/sun.png';
+  }
+  else if (textToTranslate == '0 1 0 0 0 0'){
+    return 'weather_icons/rain.png'
+  }
+  else if (textToTranslate == '1 1 1 0 0 0'){
+    return 'weather_icons/rain.png'
+  }
+  else if (textToTranslate == '1 0 0 0 0 0'){
+    return 'weather_icons/fog.png'
+  }
+  else if (textToTranslate == '1 0 1 0 0 0'){
+    return 'weather_icons/snow.png'
+  }
+  else if (textToTranslate == '0 0 1 0 0 0'){
+    return 'weather_icons/snow.png'
+  }
+  else if (textToTranslate == '0 1 1 0 0 0'){
+    return 'weather_icons/snow.png'
+  }
+  else if (textToTranslate == '0 1 0 0 1 0'){
+    return 'weather_icons/thunder.png'
+  }
+  else if (textToTranslate == '1 1 0 0 0 0'){
+    return 'weather_icons/fog.png'
+  }
+  else if (textToTranslate == '0 1 1 1 1 0'){
+    return 'weather_icons/thunder.png'
+  }
+  else if (textToTranslate == '1 1 1 0 1 0'){
+    return 'weather_icons/thunder.png'
+  }
+  else if (textToTranslate == '0 0 0 0 1 0'){
+    return 'weather_icons/thunder.png'
+  }
+  else if (textToTranslate == '0 1 1 0 1 0'){
+    return 'weather_icons/snow.png'
+  }
+  else if (textToTranslate == '1 1 0 0 1 0'){
+    return 'weather_icons/thunder.png'
+  }
+  else if (textToTranslate == '0 1 1 1 0 0'){
+    return 'weather_icons/hail.png'
+  }
+  else if (textToTranslate == '0 1 0 1 1 0'){
+    return 'weather_icons/thunder.png'
+  }
+  else if (textToTranslate == '0 1 0 1 0 0'){
+    return 'weather_icons/hail.png'
+  }
+  else if (textToTranslate == '0 0 0 0 1 1'){
+    return 'weather_icons/tornado.png'
+  }
+  else if (textToTranslate == '1 0 1 0 0 0'){
+    return 'weather_icons/snow.png'
+  }
+  else if (textToTranslate == '1 1 0 1 1 0'){
+    return 'weather_icons/thunder.png'
+  }
+  else if (textToTranslate == '0 1 0 0 1 1'){
+    return 'weather_icons/tornado.png'
+  }
+  else if (textToTranslate == '1 1 1 1 0 0'){
+    return 'weather_icons/hail.png'
+  }
+  else if (textToTranslate == '0 1 0 0 0 1'){
+    return 'weather_icons/tornado.png'
+  }
+  else{
+    return textToTranslate;
+  }
+}				
+svg
+ .selectAll("images")
+ .data(d.values)
+.enter().append("svg:image")
 
 
-				dot.append("g")
-				  .attr("id", "scatter-" + i)
-				  .attr("clip-path", "url(#clip)")
-				  .selectAll(".dot")
-				  .data(d.values)
-					.enter().append("circle")
-					.attr("class", "dot")
-					.attr("r", 5)
-					.attr("cx", function(d) {
-					  for (var j = 0; j < selec_dates.length; j++) {
-						if (selec_dates[j].toLocaleDateString("pt-PT") == d.Date) {
-							break;
-						}
-					  }
-					  return (xScale(j) + (-xScale(0))) +j * width/(selec_dates.length-1);
-					})
-					.attr("cy", function(d) {
-					  return yScale(d.Streams/divisor);
-					})
-					.attr("stroke-width", "2px")
-					.style("fill", function() {
-					  return d.colour = colors_availa[i];
-					});
-					// text label for the y axis
-	  svg.append("text")
-		  .attr("transform", "rotate(-90)")
-		  .attr("y", 0 - margin.left)
-		  .attr("x",0 - (height / 2))
-		  .attr("dy", "1em")
-		  .style("text-anchor", "middle")
-		  .text("Value");
-			}); // End data nest loop
+.attr('x', function(d) {
+                    for (var j = 0; j < selec_dates.length; j++) {
+                      if (selec_dates[j].toLocaleDateString("pt-PT") == d.Date) {
+                          break;
+                      }
+                    }
+                    return (xScale(j) + (-xScale(0))) +j * width/(selec_dates.length-1)+50 ;
+                  })
+.attr("y", function(d) {
+    return yScale(d.Streams/divisor)+10;
+})
+.attr('width', 20)
+.attr('height', 20)
+.attr("xlink:href", function(d){
+    
+    return translate(d.Indicators);
+
+});
+
+                // text label for the y axis
+                    svg.append("text")
+            		  .attr("transform", "rotate(-90)")
+            		  .attr("y", 0 - margin.left)
+            		  .attr("x",0 - (height / 2))
+            		  .attr("dy", "1em")
+            		  .style("text-anchor", "middle")
+            		  .text("Value");
+            			}); // End data nest loop
+
+
+
 
 });
 
@@ -234,7 +354,7 @@ var streamsInCountry = [];
 var dias = []
 var colors_availa=["blue", "green","red", "purple","orange", "yellow"];
 
-var divisor = 1000;
+var divisor = 1;
 
 var margin = {top: 20,right: 20,bottom: 30,left: 60};
 
