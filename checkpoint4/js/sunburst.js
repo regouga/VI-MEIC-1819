@@ -128,7 +128,7 @@ const svg = d3
         if (d.children) focusOn(d)
       })
       .on("mousemove", function(d){
-        div.style("left", d3.event.pageX+10+"px");
+        div.style("left", d3.event.pageX-400+"px");
         div.style("top", d3.event.pageY-25+"px");
         div.style("display", "inline-block");
         getTooltipText(d);
@@ -446,7 +446,7 @@ const svg = d3
         if (d.children) focusOn(d)
       })
       .on("mousemove", function(d){
-        div.style("left", d3.event.pageX+10+"px");
+        div.style("left", d3.event.pageX-400+"px");
         div.style("top", d3.event.pageY-25+"px");
         div.style("display", "inline-block");
         getTooltipText(d);
