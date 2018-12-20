@@ -113,9 +113,10 @@ const svg = d3
     }
 
     const getTooltipText = (d) => {
+      var streams = Math.floor(d.value / 1000) 
       const percent = parseInt(100 * d.data.Stream_Count / total_streams)
       div.select(".title").html(translate(d.data.name))
-      div.select(".value").html(`${d.value} Streams (${percent}%)`)
+      div.select(".value").html(`${streams}K Streams (${percent}%)`)
       div.select(".info").html(d.data.tooltipInfo)
     }
 
@@ -397,9 +398,6 @@ const svg = d3
   .on("click", () => focusOn()); // Reset zoom on canvas click
 
 
-
-    console.log(data);
-
     var end_date = new Date(2017,0,1);
     console.log(end_date);
     console.log(end_date.getDate());
@@ -408,7 +406,6 @@ const svg = d3
     console.log(index);
 
 
-    //dataset.push(data[0])
     dataset = data.children[index].children[0];
     console.log(dataset)
 
@@ -431,9 +428,10 @@ const svg = d3
     }
 
     const getTooltipText = (d) => {
+      var streams = Math.floor(d.value / 1000) 
       const percent = parseInt(100 * d.data.Stream_Count / total_streams)
       div.select(".title").html(translate(d.data.name))
-      div.select(".value").html(`${d.value} Streams (${percent}%)`)
+      div.select(".value").html(`${streams}K Streams (${percent}%)`)
       div.select(".info").html(d.data.tooltipInfo)
     }
 
