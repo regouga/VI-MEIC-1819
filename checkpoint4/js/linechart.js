@@ -30,7 +30,7 @@ function drawLineChart() {
 	
 
 	
-	d3.dsv(",", "line_chart/all.csv", function(csvdata) {
+	d3.dsv(",", "../line_chart/all.csv", function(csvdata) {
 		return {
 			Date: csvdata.Date,
 			Country: csvdata.Country,
@@ -266,9 +266,8 @@ function translate(textToTranslate){
     return textToTranslate;
   }
 }				
-svg
- .selectAll("images")
- .data(d.values)
+svg.selectAll("images")
+.data(d.values)
 .enter().append("svg:image")
 .attr("class", "images")
 .attr('x', function(d) {
@@ -284,11 +283,7 @@ svg
 })
 .attr('width', 20)
 .attr('height', 20)
-.attr("xlink:href", function(d){
-    
-    return translate(d.Indicators);
-
-})
+.attr("xlink:href", function(d){return translate(d.Indicators);})
 .style("opacity", 0.0);
 var imagens = d3.selectAll(".images")
 .transition().delay(function(d, i) { return i * 100; }).duration(2000).style("opacity", 1.0);
@@ -303,6 +298,20 @@ var imagens = d3.selectAll(".images")
             		  .text("Value");
             			}); // End data nest loop
 
+
+var c1_legend = d3.scale.ordinal()
+                        .domain([c1])
+                        .range(["steelblue"]); 
+
+
+					var legend1 = d3.legend.color()
+                     .shapeWidth(50)
+                     .orient('vertical')
+                     .scale(c1_legend)
+                     ;
+
+
+					svg.select(".line-" + i).call(legend1)
 
 
 
