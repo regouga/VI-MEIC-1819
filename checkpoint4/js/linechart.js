@@ -293,31 +293,10 @@ function drawLineChart() {
 				.style("opacity", 0.0);
 
 				var imagens = d3.selectAll(".images")
-					.transition().delay(function(d, i) { return i * 100; }).duration(2000).style("opacity", 1.0);
-
-                
-legend = svg.append("g")
-  .attr("class","legend")
-  //.attr("transform","translate(50,30)")
-  .style("font-size","12px")
-  .call(d3.legend);
-
-//var c1_legend = d3.scale.ordinal()
-//                        .domain([c1])
-//                        .range(["steelblue"]); 
+					.transition().delay(function(d, i) { return i * 100; }).duration(2000).style("opacity", 1.0);              
 
 
-					var legend1 = d3.legend.color()
-                     .shapeWidth(50)
-                     .orient('vertical')
-                     .scale(c1_legend)
-                     ;
-
-
-					svg.select(".line-" + i).call(legend1);         
-
-
-					   			}); // End data nest loop
+	}); // End data nest loop
 
 
 
