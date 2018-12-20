@@ -1,5 +1,3 @@
-
-
 function drawLineChart() {
 	
 	    function transition(path) {
@@ -59,9 +57,6 @@ function drawLineChart() {
 			});
 		}
 		
-		console.log("LOL");
-		console.log(streamsInCountry);
-
 
 
 
@@ -181,7 +176,13 @@ function drawLineChart() {
 					.style("stroke", function () {
 
 						return d.colour = colors_availa[i];
-					});
+					})
+					.on("mouseover", function (d) {                                  
+                        d3.select(this).style("stroke-width",'4px');
+                    })
+                    .on("mouseout", function(d) {        //undo everything on the mouseout
+                        d3.select(this).style("stroke-width",'1px');          
+                    });
 
         		  svg.append("text")             
         		  .attr("transform",
@@ -190,48 +191,7 @@ function drawLineChart() {
         		  .style("text-anchor", "middle")
         		  .text("Date");
 
-// dot.append("g")
-//     .selectAll(".symbol")
-//     .data(d.values)
-//     .enter()
-//     .append("circle")
-//     .attr("class", "symbol")
-    
-//     .attr("cx", function(d, i) {
-//       for (var j = 0; j < selec_dates.length; j++) {
-//                       if (selec_dates[j].toLocaleDateString("pt-PT") == d.Date) {
-//                           break;
-//                       }
-//                     }
-//                     return (xScale(j) + (-xScale(0))) +j * width/(selec_dates.length-1);
-//     })
-//     .attr("cy", function(d, i) {
-//       return yScale(d.Streams/divisor);
-//     })
-//     .style("background", "url(weather_icons/sun.png)");;
-				// dot.append("g")
-				//   .selectAll("image")
-				//   .data(d.values)
-				// 	.enter().append("circle")
-				// 	.attr("class", "symbol")
 
-				// 	.attr("r", 2)
-				// 	.attr("cx", function(d) {
-				// 	  for (var j = 0; j < selec_dates.length; j++) {
-				// 		if (selec_dates[j].toLocaleDateString("pt-PT") == d.Date) {
-				// 			break;
-				// 		}
-				// 	  }
-				// 	  return (xScale(j) + (-xScale(0))) +j * width/(selec_dates.length-1);
-				// 	})
-				// 	.attr("cy", function(d) {
-				// 	  return yScale(d.Streams/divisor);
-				// 	})
-				// 	.attr("stroke-width", "2px")
-				// 	.style("fill", function() {
-				// 	  return d.colour = colors_availa[i];
-				// 	});
-    //                 .style("xlink:href", "weather_icons/sun.png");
 function translate(textToTranslate){
   if (textToTranslate == '0 0 0 0 0 0') {
     return 'weather_icons/sun.png';
@@ -310,8 +270,7 @@ svg
  .selectAll("images")
  .data(d.values)
 .enter().append("svg:image")
-
-
+.attr("class", "images")
 .attr('x', function(d) {
                     for (var j = 0; j < selec_dates.length; j++) {
                       if (selec_dates[j].toLocaleDateString("pt-PT") == d.Date) {
@@ -329,7 +288,10 @@ svg
     
     return translate(d.Indicators);
 
-});
+})
+.style("opacity", 0.0);
+var imagens = d3.selectAll(".images")
+.transition().delay(function(d, i) { return i * 100; }).duration(2000).style("opacity", 1.0);
 
                 // text label for the y axis
                     svg.append("text")
