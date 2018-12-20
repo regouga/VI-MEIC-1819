@@ -83,8 +83,7 @@ function wordCloud(selector) {
 //Prepare one of the sample sentences by removing punctuation,
 // creating an array of words and computing a random size attribute.
 function getWords(i) {
-	console.log("MAMAS: " + artistsWordCloud[0])
-	console.log(artistsWordCloud[0]);
+	
     return artistsWordCloud[0]
             .replace(/[!\.:;\?]/g, '')
             .split(',')
@@ -97,7 +96,7 @@ function getWords(i) {
 //In reality the new words would probably come from a server request,
 // user input or some other source.
 function showNewWords(vis, i) {
-	console.log("Sagres mini");
+	
     i = i || 0;
 
     vis.update(getWords(i ++ % artistsWordCloud.length))

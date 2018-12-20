@@ -239,7 +239,6 @@ function getCountryName(countryCode) {
 
 function updateSongList(state_id) {
 	
-	console.log("AMOR DE VERDADE");
 	var teste = [];
 	var str67 = "map/"
 	var str68 = getCountryISO2(state_id);
@@ -257,12 +256,11 @@ function updateSongList(state_id) {
 		};
 		}).then(function(csv) {
 										
-										console.log("Estou aqui");
-										console.log(teste);
+										
 										for (var i = 0; i < selec_dates.length; i++) {
 
 											var current_date = selec_dates[i].toLocaleDateString("pt-PT");
-											console.log(current_date);
+										
 											
 											var div = document.getElementById('listamusicas');
 										var str1 = "<p style=\"font-size: 15px;\">Top 10 in "
@@ -681,14 +679,14 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 							if (selec_countries.includes(state_id)){
 								
 								
-								console.log(state_id);
+								
 								num_selec_countries--;
 								document.getElementById(state_id).outerHTML = "";
-								console.log(num_selec_countries);
+								
 								selec_countries = jQuery.grep(selec_countries, function(value) {
 								  return value != state_id;
 								});
-								console.log(selec_countries);
+								
 								var ul = document.getElementById("listamusicas");
 								ul.innerHTML = "";
 								var fillkey_obj = datamap.options.data[state_id] || {fillKey: 'LOW'};
@@ -711,7 +709,7 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 							}
 							
 							else if(num_selec_countries < max_countries && num_selec_countries >= 0 && !selec_countries.includes(state_id)) {
-								console.log(state_id);
+								
 									num_selec_countries++;
 									selec_countries.push(state_id);
 									var ul = document.getElementById("lista");
@@ -739,12 +737,11 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 									}).then(function(csv) {
 										
 										
-										console.log("Estou aqui");
-										console.log(teste);
+										
 										for (var i = 0; i < selec_dates.length; i++) {
 
 											var current_date = selec_dates[i].toLocaleDateString("pt-PT");
-											console.log(current_date);
+											
 											
 											var div = document.getElementById('listamusicas');
 										var str1 = "<p style=\"font-size: 15px;\">Top 10 in "
@@ -768,7 +765,7 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 												strArtists += newString;
 												strArtists += ", ";
 												
-												console.log(strArtists);
+												
 												
 												
 												teste.push(d);
@@ -776,8 +773,7 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 										});
 											
 											artistsWordCloud.unshift(strArtists);
-											console.log("LOG");
-											console.log(artistsWordCloud);
+											
 											
 											
 											
@@ -832,7 +828,7 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 
 								
 								
-									console.log(num_selec_countries);
+									
 									var fillkey_obj = datamap.options.data[state_id] || {fillKey: 'LOW'};
 									var fillkey = fillkey_obj.fillKey;;
 									var fillkeys = Object.keys(fills);
