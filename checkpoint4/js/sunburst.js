@@ -31,6 +31,7 @@ const color = d3.scaleOrdinal(d3.schemeCategory20);
 
 const partition = d3.partition();
 
+
 const arc = d3
   .arc()
   .startAngle(d => x(d.x0))
@@ -98,10 +99,8 @@ const svg = d3
     root.sum(d => d.Streams);
     root.sort(function(a, b) { return b.value - a.value; });
     var total_streams = root.value;
-    console.log("HELLLOOOOO");
-    console.log(root)
 
-    const slice = svg.selectAll("g.slice").data(partition(root).descendants());
+    const slice = svg.selectAll("g.slice").data(partition(root).descendants().filter(function(d) {return (d.depth < 3);}));
 
     slice.exit().remove();
 
@@ -416,7 +415,7 @@ const svg = d3
     console.log("HELLLOOOOO");
     console.log(root)
 
-    const slice = svg.selectAll("g.slice").data(partition(root).descendants());
+    const slice = svg.selectAll("g.slice").data(partition(root).descendants().filter(function(d) {return (d.depth < 3);}));
 
     slice.exit().remove();
 
