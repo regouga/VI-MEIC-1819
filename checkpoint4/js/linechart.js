@@ -66,8 +66,7 @@ function drawLineChart() {
 			.domain(d3.extent(streamsInCountry, function(d) {
 				return d.Streams/divisor;
 			})).nice();
-		// Set colour Scale
-		let colour = d3.scaleOrdinal(d3.schemeCategory20);
+		
 
 		var xAxis = d3.axisBottom()
 			.scale(xScale)
@@ -115,18 +114,19 @@ function drawLineChart() {
 		xAxis.tickValues(nonDuplicateTickValues);
 
 		var plotLine = d3.line()
-		.curve(d3.curveMonotoneX)
-		.x(function(d) {
-			for (var j = 0; j < selec_dates.length; j++) {
-				if (selec_dates[j].toLocaleDateString("pt-PT") == d.Date) {
-					break;
+			.curve(d3.curveMonotoneX)
+			.x(function(d) {
+				for (var j = 0; j < selec_dates.length; j++) {
+					if (selec_dates[j].toLocaleDateString("pt-PT") == d.Date) {
+						break;
+						}
 					}
-				}
-			return (xScale(j) + (-xScale(0))) +j * width/(selec_dates.length-1);
-		})
-		.y(function(d) {
-			return yScale(d.Streams/divisor);
-		});
+				return (xScale(j) + (-xScale(0))) +j * width/(selec_dates.length-1);
+			})
+			.y(function(d) {
+				return yScale(d.Streams/divisor);
+			});
+		
 		// Nest the entries by name
 		var dataNest = d3.nest()
 			.key(function (d) {
@@ -174,7 +174,6 @@ function drawLineChart() {
 					.attr("d", plotLine)
 					.style("fill", "none")
 					.style("stroke", function () {
-
 						return d.colour = colors_availa[i];
 					})
 					.on("mouseover", function (d) {                                  
@@ -184,109 +183,110 @@ function drawLineChart() {
                         d3.select(this).style("stroke-width",'1px');          
                     });
 
-        		  svg.append("text")             
-        		  .attr("transform",
+        		svg.append("text")             
+        		  	.attr("transform",
         				"translate(" + (width/2 + 60) + " ," + 
         							   (height + margin.top + 30) + ")")
-        		  .style("text-anchor", "middle")
-        		  .text("Date");
+        		  	.style("text-anchor", "middle")
+        		  	.text("Date");
 
 
-function translate(textToTranslate){
-  if (textToTranslate == '0 0 0 0 0 0') {
-    return 'weather_icons/sun.png';
-  }
-  else if (textToTranslate == '0 1 0 0 0 0'){
-    return 'weather_icons/rain.png'
-  }
-  else if (textToTranslate == '1 1 1 0 0 0'){
-    return 'weather_icons/rain.png'
-  }
-  else if (textToTranslate == '1 0 0 0 0 0'){
-    return 'weather_icons/fog.png'
-  }
-  else if (textToTranslate == '1 0 1 0 0 0'){
-    return 'weather_icons/snow.png'
-  }
-  else if (textToTranslate == '0 0 1 0 0 0'){
-    return 'weather_icons/snow.png'
-  }
-  else if (textToTranslate == '0 1 1 0 0 0'){
-    return 'weather_icons/snow.png'
-  }
-  else if (textToTranslate == '0 1 0 0 1 0'){
-    return 'weather_icons/thunder.png'
-  }
-  else if (textToTranslate == '1 1 0 0 0 0'){
-    return 'weather_icons/fog.png'
-  }
-  else if (textToTranslate == '0 1 1 1 1 0'){
-    return 'weather_icons/thunder.png'
-  }
-  else if (textToTranslate == '1 1 1 0 1 0'){
-    return 'weather_icons/thunder.png'
-  }
-  else if (textToTranslate == '0 0 0 0 1 0'){
-    return 'weather_icons/thunder.png'
-  }
-  else if (textToTranslate == '0 1 1 0 1 0'){
-    return 'weather_icons/snow.png'
-  }
-  else if (textToTranslate == '1 1 0 0 1 0'){
-    return 'weather_icons/thunder.png'
-  }
-  else if (textToTranslate == '0 1 1 1 0 0'){
-    return 'weather_icons/hail.png'
-  }
-  else if (textToTranslate == '0 1 0 1 1 0'){
-    return 'weather_icons/thunder.png'
-  }
-  else if (textToTranslate == '0 1 0 1 0 0'){
-    return 'weather_icons/hail.png'
-  }
-  else if (textToTranslate == '0 0 0 0 1 1'){
-    return 'weather_icons/tornado.png'
-  }
-  else if (textToTranslate == '1 0 1 0 0 0'){
-    return 'weather_icons/snow.png'
-  }
-  else if (textToTranslate == '1 1 0 1 1 0'){
-    return 'weather_icons/thunder.png'
-  }
-  else if (textToTranslate == '0 1 0 0 1 1'){
-    return 'weather_icons/tornado.png'
-  }
-  else if (textToTranslate == '1 1 1 1 0 0'){
-    return 'weather_icons/hail.png'
-  }
-  else if (textToTranslate == '0 1 0 0 0 1'){
-    return 'weather_icons/tornado.png'
-  }
-  else{
-    return textToTranslate;
-  }
-}				
-svg.selectAll("images")
-.data(d.values)
-.enter().append("svg:image")
-.attr("class", "images")
-.attr('x', function(d) {
-                    for (var j = 0; j < selec_dates.length; j++) {
-                      if (selec_dates[j].toLocaleDateString("pt-PT") == d.Date) {
-                          break;
-                      }
-                    }
-                    return (xScale(j) + (-xScale(0))) +j * width/(selec_dates.length-1)+50 ;
-                  })
-.attr("y", function(d) {
-    return yScale(d.Streams/divisor)+10;
-})
-.attr('width', 20)
-.attr('height', 20)
-.attr("xlink:href", function(d){return translate(d.Indicators);})
-.style("opacity", 0.0);
-var imagens = d3.selectAll(".images")
-.transition().delay(function(d, i) { return i * 100; }).duration(2000).style("opacity", 1.0);
+				function translate(textToTranslate){
+				  if (textToTranslate == '0 0 0 0 0 0') {
+				    return 'weather_icons/sun.png';
+				  }
+				  else if (textToTranslate == '0 1 0 0 0 0'){
+				    return 'weather_icons/rain.png'
+				  }
+				  else if (textToTranslate == '1 1 1 0 0 0'){
+				    return 'weather_icons/rain.png'
+				  }
+				  else if (textToTranslate == '1 0 0 0 0 0'){
+				    return 'weather_icons/fog.png'
+				  }
+				  else if (textToTranslate == '1 0 1 0 0 0'){
+				    return 'weather_icons/snow.png'
+				  }
+				  else if (textToTranslate == '0 0 1 0 0 0'){
+				    return 'weather_icons/snow.png'
+				  }
+				  else if (textToTranslate == '0 1 1 0 0 0'){
+				    return 'weather_icons/snow.png'
+				  }
+				  else if (textToTranslate == '0 1 0 0 1 0'){
+				    return 'weather_icons/thunder.png'
+				  }
+				  else if (textToTranslate == '1 1 0 0 0 0'){
+				    return 'weather_icons/fog.png'
+				  }
+				  else if (textToTranslate == '0 1 1 1 1 0'){
+				    return 'weather_icons/thunder.png'
+				  }
+				  else if (textToTranslate == '1 1 1 0 1 0'){
+				    return 'weather_icons/thunder.png'
+				  }
+				  else if (textToTranslate == '0 0 0 0 1 0'){
+				    return 'weather_icons/thunder.png'
+				  }
+				  else if (textToTranslate == '0 1 1 0 1 0'){
+				    return 'weather_icons/snow.png'
+				  }
+				  else if (textToTranslate == '1 1 0 0 1 0'){
+				    return 'weather_icons/thunder.png'
+				  }
+				  else if (textToTranslate == '0 1 1 1 0 0'){
+				    return 'weather_icons/hail.png'
+				  }
+				  else if (textToTranslate == '0 1 0 1 1 0'){
+				    return 'weather_icons/thunder.png'
+				  }
+				  else if (textToTranslate == '0 1 0 1 0 0'){
+				    return 'weather_icons/hail.png'
+				  }
+				  else if (textToTranslate == '0 0 0 0 1 1'){
+				    return 'weather_icons/tornado.png'
+				  }
+				  else if (textToTranslate == '1 0 1 0 0 0'){
+				    return 'weather_icons/snow.png'
+				  }
+				  else if (textToTranslate == '1 1 0 1 1 0'){
+				    return 'weather_icons/thunder.png'
+				  }
+				  else if (textToTranslate == '0 1 0 0 1 1'){
+				    return 'weather_icons/tornado.png'
+				  }
+				  else if (textToTranslate == '1 1 1 1 0 0'){
+				    return 'weather_icons/hail.png'
+				  }
+				  else if (textToTranslate == '0 1 0 0 0 1'){
+				    return 'weather_icons/tornado.png'
+				  }
+				  else{
+				    return textToTranslate;
+				  }
+				}				
+				svg.selectAll("images")
+					.data(d.values)
+					.enter().append("svg:image")
+					.attr("class", "images")
+					.attr('x', function(d) {
+				    	for (var j = 0; j < selec_dates.length; j++) {
+				            if (selec_dates[j].toLocaleDateString("pt-PT") == d.Date) {
+				                break;
+				            }
+				        }
+				        return (xScale(j) + (-xScale(0))) +j * width/(selec_dates.length-1)+50 ;
+				    })
+				.attr("y", function(d) {
+				    return yScale(d.Streams/divisor)+10;
+				})
+				.attr('width', 20)
+				.attr('height', 20)
+				.attr("xlink:href", function(d){return translate(d.Indicators);})
+				.style("opacity", 0.0);
+
+				var imagens = d3.selectAll(".images")
+					.transition().delay(function(d, i) { return i * 100; }).duration(2000).style("opacity", 1.0);
 
                 // text label for the y axis
                     svg.append("text")

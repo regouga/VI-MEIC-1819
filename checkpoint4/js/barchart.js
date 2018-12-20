@@ -16,13 +16,6 @@ var fulldata;
 		};
 	}).then(function(data) { 
 
-		
-		
-	
-	
-	debugger;
-	console.log("PUTA DEITA-TE");
-	console.log(data);
 	
 	data.forEach(function(d) {
 		if (d.Country == countrySelected) {
@@ -83,7 +76,7 @@ var fulldata;
 						.enter()
 						.append("g")
 						
-					debugger;
+					
 					bars.transition()
 						.duration(1000)
 						.ease(d3.easeQuad)
@@ -145,18 +138,12 @@ var fulldata;
 		
 		
 	
-	
-	debugger;
-	console.log("PUTA DEITA-TE");
-	console.log(data);
-	
 	data.forEach(function(d) {
 		if (d.Country == "pt") {
 			teste.push(d);
 		} 
 	});
 	
-		console.log("HOUSE OF CARDS");
     data = teste;
 
 						//sort bars based on value
