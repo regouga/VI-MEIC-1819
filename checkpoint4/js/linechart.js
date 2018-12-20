@@ -192,7 +192,7 @@ function drawLineChart() {
 
         		// text label for the y axis
                     svg.append("text")      		  
-            		  .attr("y", 0 )
+            		  .attr("y", +15 )
             		  .attr("x", -height/2 + margin.top/2 -30 )
             		  .attr("transform", "rotate(-90)")
             		  .style("text-anchor", "middle")
