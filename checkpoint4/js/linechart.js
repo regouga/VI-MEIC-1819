@@ -190,6 +190,13 @@ function drawLineChart() {
         		  	.style("text-anchor", "middle")
         		  	.text("Date");
 
+        		// text label for the y axis
+                    svg.append("text")      		  
+            		  .attr("y", 0 )
+            		  .attr("x", -height/2 + margin.top/2 -30 )
+            		  .attr("transform", "rotate(-90)")
+            		  .style("text-anchor", "middle")
+            		  .text("Streams (Thousands)");
 
 				function translate(textToTranslate){
 				  if (textToTranslate == '0 0 0 0 0 0') {
@@ -288,20 +295,16 @@ function drawLineChart() {
 				var imagens = d3.selectAll(".images")
 					.transition().delay(function(d, i) { return i * 100; }).duration(2000).style("opacity", 1.0);
 
-                // text label for the y axis
-                    svg.append("text")
-            		  .attr("transform", "rotate(-90)")
-            		  .attr("y", 0 - margin.left)
-            		  .attr("x",0 - (height / 2))
-            		  .attr("dy", "1em")
-            		  .style("text-anchor", "middle")
-            		  .text("Value");
-            			}); // End data nest loop
+                
+legend = svg.append("g")
+  .attr("class","legend")
+  //.attr("transform","translate(50,30)")
+  .style("font-size","12px")
+  .call(d3.legend);
 
-
-var c1_legend = d3.scale.ordinal()
-                        .domain([c1])
-                        .range(["steelblue"]); 
+//var c1_legend = d3.scale.ordinal()
+//                        .domain([c1])
+//                        .range(["steelblue"]); 
 
 
 					var legend1 = d3.legend.color()
@@ -311,7 +314,12 @@ var c1_legend = d3.scale.ordinal()
                      ;
 
 
-					svg.select(".line-" + i).call(legend1)
+					svg.select(".line-" + i).call(legend1);         
+
+
+					   			}); // End data nest loop
+
+
 
 
 
