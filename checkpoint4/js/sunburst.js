@@ -5,8 +5,6 @@ function drawSunburst() {
 	var str69 = ".json"
 	var str70 = str67.concat(str68, str69)
 	
-	console.log("KJSJSHS");
-	console.log(selec_dates)
 
 var dataset = [];
 
@@ -62,14 +60,10 @@ const textFits = d => {
   const r = Math.max(0, (y(d.y0) + y(d.y1)) / 2);
   const perimeter = r * deltaAngle;
 
-  //console.log(d.data.name.length)
-  
-  //return d.data.name.length * CHAR_SPACE < perimeter;
   return true;
 };
 
 var div = d3.select("body .toolTip")
-console.log(div)
 
 const svg = d3
   .select("#sunburst")
@@ -81,19 +75,12 @@ const svg = d3
 
 
 
-    console.log(data);
 
     var end_date = selec_dates.slice(-1).pop();
-    console.log(end_date);
-    console.log(end_date.getDate());
-    console.log(end_date.getMonth());
     var index = dayOfYear(end_date.getDate(),end_date.getMonth());
-    console.log(index);
 
 
-    //dataset.push(data[0])
     dataset = data.children[index].children[0];
-    console.log(dataset)
 
     root = d3.hierarchy(dataset, function(d){return d.children;});
     root.sum(d => d.Streams);
@@ -307,15 +294,11 @@ function dayOfYear(day, month){
   if (month == 11 && (day == 31 || day == 30 || day == 29)){
     return 361;
   }
-  console.log("oi")
   var end = new Date(2017, month, day);
-  console.log(end);
   var start = new Date(2017, 0, 1);
-  console.log(start);
   var diff = end - start;
   var oneDay = 1000 * 60 * 60 * 24;
   var day = Math.floor(diff / oneDay);
-  console.log('Day of year: ' + day);
   return day;
 }
 
@@ -379,14 +362,10 @@ const textFits = d => {
   const r = Math.max(0, (y(d.y0) + y(d.y1)) / 2);
   const perimeter = r * deltaAngle;
 
-  //console.log(d.data.name.length)
-  
-  //return d.data.name.length * CHAR_SPACE < perimeter;
   return true;
 };
 
 var div = d3.select("body .toolTip")
-console.log(div)
 
 const svg = d3
   .select("#sunburst")
@@ -398,22 +377,16 @@ const svg = d3
 
 
     var end_date = new Date(2017,0,1);
-    console.log(end_date);
-    console.log(end_date.getDate());
-    console.log(end_date.getMonth());
     var index = dayOfYear(end_date.getDate(),end_date.getMonth());
-    console.log(index);
 
 
     dataset = data.children[index].children[0];
-    console.log(dataset)
 
     root = d3.hierarchy(dataset, function(d){return d.children;});
     root.sum(d => d.Streams);
     root.sort(function(a, b) { return b.value - a.value; });
+    var node = root;
     var total_streams = root.value;
-    console.log("HELLLOOOOO");
-    console.log(root)
 
     const slice = svg.selectAll("g.slice").data(partition(root).descendants().filter(function(d) {return (d.depth < 3);}));
 
@@ -433,6 +406,7 @@ const svg = d3
       div.select(".value").html(`${streams}K Streams (${percent}%)`)
       div.select(".info").html(d.data.tooltipInfo)
     }
+
 
     const newSlice = slice
       .enter()
@@ -464,6 +438,34 @@ const svg = d3
       .attr("id", (_, i) => `hiddenArc${i}`)
       .attr("d", middleArcLine)
 
+/*
+      function arcTweenData(a, i) {
+    // (a.x0s ? a.x0s : 0) -- grab the prev saved x0 or set to 0 (for 1st time through)
+    // avoids the stash() and allows the sunburst to grow into being
+    var oi = d3.interpolate({ x0: (a.x0s ? a.x0s : 0), x1: (a.x1s ? a.x1s : 0) }, a);  
+    function tween(t) {
+      var b = oi(t);
+      a.x0s = b.x0;  
+      a.x1s = b.x1;  
+      return arc(b);
+    }
+    if (i == 0) { 
+      // If we are on the first arc, adjust the x domain to match the root node
+      // at the current zoom level. (We only need to do this once.)
+      var xd = d3.interpolate(x.domain(), [node.x0, node.x1]);
+      return function (t) {
+        x.domain(xd(t));
+        return tween(t);
+      };
+    } else {
+      return tween;
+    }
+  }
+
+    svg.selectAll("path").transition().duration(1000).attrTween("d", arcTweenData);
+
+*/
+
     const text = newSlice
       .append("text")
       .attr("display", d => (textFits(d) ? null : "none"));
@@ -482,6 +484,7 @@ const svg = d3
       .attr("startOffset", "50%")
       .attr("xlink:href", (_, i) => `#hiddenArc${i}`)
       .text(d => translate(d.data.name));
+
 
     function focusOn(d = {}) {
       const zoomOut = {x0: 0, x1: 1, y0: 0, y1: 1}
@@ -502,6 +505,9 @@ const svg = d3
         }
       }
     }
+
+    
+
     function doFocus(d) {
       const transition = svg
         .transition()
@@ -622,15 +628,11 @@ function dayOfYear(day, month){
   if (month == 11 && (day == 31 || day == 30 || day == 29)){
     return 361;
   }
-  console.log("oi")
   var end = new Date(2017, month, day);
-  console.log(end);
   var start = new Date(2017, 0, 1);
-  console.log(start);
   var diff = end - start;
   var oneDay = 1000 * 60 * 60 * 24;
   var day = Math.floor(diff / oneDay);
-  console.log('Day of year: ' + day);
   return day;
 }
 
