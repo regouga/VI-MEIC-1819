@@ -26,7 +26,7 @@
 		var max_countries = 6;
 		var start_date = null;
 		var end_date = null;
-		var selec_dates = [new Date(2017, 0, 1)];
+		var selec_dates = [new Date(2017, 0, 1), new Date(2017, 0, 2), new Date(2017, 0, 3)];
 		var artistsWordCloud = [];
 		var artistsWordCloud_all = [];
 		console.log(selec_dates);
@@ -113,7 +113,7 @@
 						<div class="input-daterange input-group" id="datepicker">
 							<input type="text" class="input-sm form-control" value="01/01/2017" name="start" id="start"/>
 							<span class="input-group-addon">to</span>
-							<input type="text" class="input-sm form-control" value="01/01/2017" name="end" id="end"/>
+							<input type="text" class="input-sm form-control" value="03/01/2017" name="end" id="end"/>
 						</div>
 					</div>
 					<script type="text/javascript" scr="js/update.js"></script>
@@ -125,7 +125,10 @@
 							maxViewMode: 1
 						});
 						
+						var countVezes = 0;
 						$('#sandbox-container .input-daterange').datepicker().on('changeDate', function (ev) {
+							
+							
 							
 							function toDate(dateStr) {
 							  const [day, month, year] = dateStr.split("/")
@@ -168,8 +171,17 @@
 								}
 						document.getElementById("putaquepariu").innerHTML = "";
 
-											
-						if (num_selec_countries > 0) updateViss();
+						if (selec_dates.length == 1 || countVezes == 0) countVezes++;
+						else countVezes = 0;
+							
+						if (num_selec_countries > 0 && countVezes <= 1) {
+							updateViss();
+						}
+													d3.select('#putaquepariu').select("svg").remove();
+							var myWordCloud = wordCloud('#putaquepariu');
+							showNewWords(myWordCloud);
+							showNewWords(myWordCloud);
+							showNewWords(myWordCloud);
 						});
 
 						
@@ -214,7 +226,7 @@
 				</div>
 			<div class="row-md-6">
 				<div class="col-md-6">
-					<div id="putaquepariu"></div>
+					<div id="putaquepariu" style="margin-top: 40px;"></div>
 					<script src="d3/d3.v3.min.js"></script>
   					<script src="d3/d3.layout.cloud.js"></script>
 					<script src="js/wordcloud.js"></script>
@@ -232,7 +244,7 @@
 
 		</div>
 	</div>
-
+	
 
 	<div class="toolTip">
 	    <div class="title"></div>

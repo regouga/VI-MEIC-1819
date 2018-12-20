@@ -10,10 +10,10 @@ function wordCloud(selector) {
 
     //Construct the word cloud's SVG element
     var svg = d3.select(selector).append("svg")
-        .attr("width", 250)
-        .attr("height", 250)
+        .attr("width", 300)
+        .attr("height", 300)
         .append("g")
-        .attr("transform", "translate(125,125)");
+        .attr("transform", "translate(150,150)");
 
 
     //Draw the word cloud
@@ -60,7 +60,7 @@ function wordCloud(selector) {
         //The outside world will need to call this function, so make it part
         // of the wordCloud return value.
         update: function(words) {
-            d3.layout.cloud().size([250, 250])
+            d3.layout.cloud().size([300, 300])
                 .words(words)
                 .padding(5)
                 .rotate(function() { return 0; })
@@ -89,7 +89,7 @@ function getWords(i) {
             .replace(/[!\.:;\?]/g, '')
             .split(',')
             .map(function(d) {
-                return {text: d, size: 17.5};
+                return {text: d, size: 25};
             })
 }
 
