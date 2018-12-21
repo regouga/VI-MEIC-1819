@@ -17,8 +17,7 @@ function drawLineChart() {
 	var dias = []
 	var colors_availa=["rgb(31, 119, 180)", "rgb(44, 160, 44)", "rgb(214, 39, 40)", "rgb(148, 103, 189)", "rgb(255, 127, 14)", "rgb(255, 187, 120)"];
 	var new_colors = colors_availa;
-	//console.log(historico);
-	//console.log(selec_countries);
+	
 	for(k=0;k<historico.length;k++){
 		for(z=0;z<selec_countries.length;z++){
 			if(historico[k]==selec_countries[z]){
@@ -380,6 +379,7 @@ function drawLineChart() {
 				                break;
 				            }
 				        }
+				        console.log(j);
 				        return (xScale(j) + (-xScale(0))) +j * width/(selec_dates.length-1)+50 ;
 				    })
 				.attr("y", function(d) {
@@ -390,14 +390,13 @@ function drawLineChart() {
 				.attr("xlink:href", function(d){return translate(d.Indicators);})
 				.style("opacity", 0.0)
 				.on("mouseover", function (d) {                                  
-                    //d3.select(this).style("width",'20%');
-                    //d3.select(this).style("height",'20%');
-                    d3.select(this).attr('transform', 'translate(' + this.x + ',' + this.y + ')scale(' +4+ ')');
+                    d3.select(this).style("width",'10%');
+                    d3.select(this).style("height",'10%');
 		        })
 				.on("mouseout", function(d) {        //undo everything on the mouseout
                     
-                    //d3.select(this).style("width",'8%');
-                    //d3.select(this).style("height",'8%');
+                    d3.select(this).style("width",'8%');
+                    d3.select(this).style("height",'8%');
 	            });
 
 				var imagens = d3.selectAll(".images")
