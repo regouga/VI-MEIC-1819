@@ -480,7 +480,7 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 								fillKey: 'HIGH'
 							},
 							PRT: {
-								fillKey: 'HIGH'
+								fillKey: 'LOW'
 							},
 							GBR: {
 								fillKey: 'HIGH'
@@ -681,6 +681,9 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 								
 								
 								num_selec_countries--;
+								console.log(state_id);
+								console.log(document.getElementById(state_id));
+
 								document.getElementById(state_id).outerHTML = "";
 								
 								selec_countries = jQuery.grep(selec_countries, function(value) {
@@ -786,6 +789,7 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 											
 
 										function tabulate(data, columns) {
+											
 											var table = d3.select('#listamusicas').append('table')
 											var thead = table.append('thead')
 											var	tbody = table.append('tbody');

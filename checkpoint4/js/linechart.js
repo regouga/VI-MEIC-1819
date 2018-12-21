@@ -379,7 +379,7 @@ function drawLineChart() {
 				                break;
 				            }
 				        }
-				        console.log(j);
+				        
 				        return (xScale(j) + (-xScale(0))) +j * width/(selec_dates.length-1)+50 ;
 				    })
 				.attr("y", function(d) {
@@ -464,8 +464,7 @@ function drawLineChart() {
 			});
 		}
 		
-		console.log("LOL");
-		console.log(streamsInCountry);
+		
 
 
 
