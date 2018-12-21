@@ -704,14 +704,21 @@ d3.csv("map/weather_by_day.csv", function(csvdata) {
 								}
 								artistsWordCloud.shift();
 								document.getElementById("putaquepariu").innerHTML = "";
-								if (artistsWordCloud.length != 0) updateViss();
+								if (artistsWordCloud.length != 0) {
+									
+									updateViss();
+								}
 								d3.select("#graphic").select("svg").remove();
 							}
 							
 							else if(num_selec_countries < max_countries && num_selec_countries >= 0 && !selec_countries.includes(state_id)) {
 								
 									num_selec_countries++;
+									
+									historico = selec_countries;
+
 									selec_countries.push(state_id);
+									
 									var ul = document.getElementById("lista");
 									var li = document.createElement(state_id);
 									li.className = "list-group-item";

@@ -3,7 +3,6 @@ function updateViss () {
 	
 
 	//Start cycling through the demo data
-	
 	d3.select('#putaquepariu').select("svg").remove();
 	var myWordCloud = wordCloud('#putaquepariu');
 	showNewWords(myWordCloud);
