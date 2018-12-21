@@ -368,7 +368,16 @@ function drawLineChart() {
 				.attr('width', 20)
 				.attr('height', 20)
 				.attr("xlink:href", function(d){return translate(d.Indicators);})
-				.style("opacity", 0.0);
+				.style("opacity", 0.0)
+				.on("mouseover", function (d) {                                  
+                    d3.select(this).style("width",'10%');
+                    d3.select(this).style("height",'10%');
+		        })
+				.on("mouseout", function(d) {        //undo everything on the mouseout
+                    
+                    d3.select(this).style("width",'8%');
+                    d3.select(this).style("height",'8%');
+	            });
 
 				var imagens = d3.selectAll(".images")
 					.transition().delay(function(d, i) { return i * 100; }).duration(2000).style("opacity", 1.0)
