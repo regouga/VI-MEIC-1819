@@ -3,7 +3,7 @@
 // MIT licence
 
 (function() {console.log('d3.legend');
-
+    debugger;
 d3.legend = function(g) {
     console.log('d3.legend');
   g.each(function() {

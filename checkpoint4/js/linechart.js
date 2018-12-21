@@ -17,7 +17,9 @@ function drawLineChart() {
 	var dias = []
 	var colors_availa=["rgb(31, 119, 180)", "rgb(44, 160, 44)", "rgb(214, 39, 40)", "rgb(148, 103, 189)", "rgb(255, 127, 14)", "rgb(255, 187, 120)"];
 	
-	
+	function get_color_availa(i)  {
+		return colors_availa.slice(-(i+1))[0];
+	}
 	var divisor = 1000;
 
 	var margin = {top: 20,right: 20,bottom: 30,left: 60};
@@ -162,19 +164,82 @@ function drawLineChart() {
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 			dataNest.forEach(function (d, i) {
-			// Add line plot
+			var countryMapping = {
+  ar: "Argentina",
+  au: "Australia",
+  at: "Austria",
+  be: "Belgium",
+  bo: "Bolivia",
+  br: "Brazil",
+  ca: "Canada",
+  cl: "Chile",
+  hk: "China",
+  co: "Colombia",
+  cr: "Costa Rica",
+  cz: "Czech Republic",
+  dk: "Denmark",
+  do: "Dominican Republic",
+  ec: "Ecuador",
+  sv: "El Salvador",
+  ee: "Estonia",
+  fi: "Finland",
+  fr: "France",
+  de: "Germany",
+  gr: "Greece",
+  gt: "Guatemala",
+  hn: "Honduras",
+  hu: "Hungary",
+  is: "Iceland",
+  id: "Indonesia",
+  ie: "Ireland",
+  it: "Italy",
+  jp: "Japan",
+  lv: "Latvia",
+  lt: "Lithuania",
+  lu: "Luxembourg",
+  my: "Malaysia",
+  mx: "Mexico",
+  nl: "Netherlands",
+  nz: "New Zealand",
+  no: "Norway",
+  pa: "Panama",
+  py: "Paraguay",
+  pe: "Peru",
+  ph: "Philippines",
+  pl: "Poland",
+  pt: "Portugal",
+  sg: "Singapore",
+  sk: "Slovakia",
+  es: "Spain",
+  se: "Sweden",
+  ch: "Switzerland",
+  tw: "Taiwan",
+  tr: "Turkey",
+  gb: "United Kingdom",
+  us: "United States",
+  uy: "Uruguay",
+}
+				console.log("#legend"+i);
+				console.log(get_color_availa(i))
+				console.log(countryMapping[d.key])
+				var circle = "circle" + i;
+				var span = "span" + i;
+				$("#legend"+i).append($('<div id='+circle+' style="background-color: '+ get_color_availa(i)+';"></div><span id='+span+' style="font-size: 12px;vertical-align: middle;">'+countryMapping[d.key] + '</span>'));
+				
 
+				// Add line plot
 				line.append("g")
 					.attr("id", "line-" + i)
 					.attr("clip-path", "url(#clip)")
 					.append("path")
+					.attr("data-legend",function() { return d.key;})
 					.call(transition)
 					.datum(d.values)
 					.attr("class", "pointlines")
 					.attr("d", plotLine)
 					.style("fill", "none")
 					.style("stroke", function () {
-						return d.colour = colors_availa[i];
+						return d.colour = get_color_availa(i);
 					})
 					.on("mouseover", function (d) {                                  
                         d3.select(this).style("stroke-width",'4px');
@@ -293,7 +358,8 @@ function drawLineChart() {
 				.style("opacity", 0.0);
 
 				var imagens = d3.selectAll(".images")
-					.transition().delay(function(d, i) { return i * 100; }).duration(2000).style("opacity", 1.0);              
+					.transition().delay(function(d, i) { return i * 100; }).duration(2000).style("opacity", 1.0)
+					;
 
 
 	}); // End data nest loop
