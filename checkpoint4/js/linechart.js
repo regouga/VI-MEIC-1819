@@ -18,7 +18,7 @@ function drawLineChart() {
 	var colors_availa=["rgb(31, 119, 180)", "rgb(44, 160, 44)", "rgb(214, 39, 40)", "rgb(148, 103, 189)", "rgb(255, 127, 14)", "rgb(255, 187, 120)"];
 	
 	function get_color_availa(i)  {
-		return colors_availa.slice(-(i+1))[0];
+		return colors_availa[i];
 	}
 	var divisor = 1000;
 
@@ -219,9 +219,7 @@ function drawLineChart() {
   us: "United States",
   uy: "Uruguay",
 }
-				console.log("#legend"+i);
-				console.log(get_color_availa(i))
-				console.log(countryMapping[d.key])
+
 				var circle = "circle" + i;
 				var span = "span" + i;
 				$("#legend"+i).append($('<div id='+circle+' style="background-color: '+ get_color_availa(i)+';"></div><span id='+span+' style="font-size: 12px;vertical-align: middle;">'+countryMapping[d.key] + '</span>'));
@@ -243,9 +241,24 @@ function drawLineChart() {
 					})
 					.on("mouseover", function (d) {                                  
                         d3.select(this).style("stroke-width",'4px');
+                        document.getElementById(span).style.fontWeight='bold';
+                        for(j=0;j<6;j++){
+                        	if(j!=i){
+                        	document.getElementById("span"+j).style.opacity='0.5';
+                        	document.getElementById("circle"+j).style.opacity='0.5';}	
+                        }
+                        
                     })
                     .on("mouseout", function(d) {        //undo everything on the mouseout
-                        d3.select(this).style("stroke-width",'1px');          
+                        d3.select(this).style("stroke-width",'1px');
+                        document.getElementById(span).style.fontWeight='normal'; 
+                        for(j=0;j<6;j++){
+                        	if(j!=i){
+                        	document.getElementById("span"+j).style.opacity='1';
+                        	document.getElementById("circle"+j).style.opacity='1';}		
+                        }
+                        
+
                     });
 
         		svg.append("text")             
