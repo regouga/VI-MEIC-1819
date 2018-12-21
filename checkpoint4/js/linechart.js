@@ -49,14 +49,25 @@ function drawLineChart() {
 			if (!dias.includes(current_date)){
 				dias.push(current_date);
 			}
-			data.forEach(function(d) {
-				for (var l=0; l < selec_countries.length; l++) {
-					if (current_date == d.Date &&  d.Country == getCountryISO2(selec_countries[l])) {
-						streamsInCountry.push(d);
-					}
-				}
+			// data.forEach(function(d) {
+
+			// 	for (var l=0; l < selec_countries.length; l++) {
+			// 		//console.log(selec_countries[l]);
+			// 		if (current_date == d.Date &&  d.Country == getCountryISO2(selec_countries[l])) {
+			// 			streamsInCountry.push(d);
+			// 		}
+			// 	}
+				
+			// })
+			selec_countries.forEach(function(e){
+				data.forEach(function(f){
+					if (current_date == f.Date &&  f.Country == getCountryISO2(e)) {
+						streamsInCountry.push(f);
+					}	
+				})
 				
 			});
+			;
 		}
 		
 
